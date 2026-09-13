@@ -468,7 +468,7 @@ const Download = () => `
               <li>${Icon('check', 'w-4 h-4')} Appels vocaux et vidéo</li>
             </ul>
             <div class="mt-auto pt-8 flex items-center justify-between gap-4 flex-wrap">
-              <a href="public/lynoralink.apk" download class="btn btn-accent btn-lg">Télécharger l'APK ${Icon('arrowDown', 'w-4 h-4')}</a>
+              <a href="public/LynoraLink.v1.0.apk" download class="btn btn-accent btn-lg">Télécharger l'APK ${Icon('arrowDown', 'w-4 h-4')}</a>
               <span class="text-[11.5px] text-mist">Fichier Android</span>
             </div>
           </div>

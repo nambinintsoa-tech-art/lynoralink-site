@@ -201,7 +201,7 @@ Install Command: aucune
 
 7. Cliquez sur **Deploy**.
 
-Vercel servira directement `frontend/index.html` comme page d’accueil.
+Vercel servira directement `index.html` comme page d’accueil.
 
 ### Déploiement Vercel avec la CLI
 
@@ -217,7 +217,7 @@ Pour un déploiement de production :
 npx vercel --prod
 ```
 
-La CLI peut demander une connexion et le choix d’un projet. Sélectionnez le dossier `frontend/` comme racine lorsque la question est posée.
+La CLI peut demander une connexion et le choix d’un projet. Depuis ce dépôt, lancez la commande dans le dossier qui contient `index.html` et sélectionnez `.` comme racine du projet.
 
 ### Domaine personnalisé sur Vercel
 
@@ -235,12 +235,12 @@ Vercel fournit automatiquement un certificat SSL pour les domaines correctement 
 Le bouton Android pointe vers le chemin relatif suivant :
 
 ```text
-public/lynoralink.apk
+public/LynoraLink.v1.0.apk
 ```
 
 Pour rendre le téléchargement disponible :
 
-1. Ajoutez le fichier APK réel dans `frontend/public/lynoralink.apk`.
+1. Ajoutez le fichier APK réel dans `public/LynoraLink.v1.0.apk`.
 2. Conservez exactement ce nom ou modifiez le lien dans `frontend/app.js`.
 3. Republiez le dossier `frontend/` sur LWS ou redéployez le projet Vercel.
 4. Testez le bouton depuis un téléphone Android.
