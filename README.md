@@ -189,7 +189,7 @@ Si le domaine est géré ailleurs, utilisez les enregistrements communiqués par
 1. Connectez-vous à Vercel.
 2. Cliquez sur **Add New Project**.
 3. Importez le dépôt contenant LynoraLink.
-4. Dans **Root Directory**, sélectionnez `frontend`.
+4. Dans **Root Directory**, laissez la valeur par défaut `.` (racine du dépôt). Ne sélectionnez pas `frontend`, car ce dépôt contient déjà `index.html` à sa racine.
 5. Choisissez **Other** ou **No Framework** si Vercel le propose.
 6. Laissez les champs de build vides :
 
