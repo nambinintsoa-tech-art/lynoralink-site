@@ -3,5 +3,4 @@ DirectoryIndex index.html
 AddType application/vnd.android.package-archive .apk
 <FilesMatch "\.apk$">
   ForceType application/vnd.android.package-archive
-  Header set Content-Disposition attachment
 </FilesMatch>
