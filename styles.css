@@ -269,6 +269,10 @@ input, textarea, select { max-width: 100%; }
   .download-card .p-7 { padding: 24px; }
   .download-card h2 { font-size: 24px; }
   .download-card .btn { width: 100%; }
+  .hero-bg .glass-dark { padding: 12px; }
+  .hero-bg .glass-dark > .bg-white { padding: 12px; }
+  .hero-preview-meta { gap: 8px 12px; }
+  .hero-preview-meta > span { flex: 1 1 auto; }
 }
 
 /* ---------------- Mobile layout safeguards ---------------- */
@@ -493,6 +497,10 @@ input, textarea, select { max-width: 100%; }
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
+.hero-bg .glass-dark,
+.hero-bg .glass-dark > .bg-white,
+.hero-preview-meta { min-width: 0; max-width: 100%; }
+.hero-preview-meta > span { min-width: 0; }
 
 /* ---------------- Stats — tabular editorial ---------------- */
 .stat-block { padding-left: 18px; border-left: 1px solid rgba(255,255,255,.16); }

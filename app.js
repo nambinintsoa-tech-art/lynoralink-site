@@ -225,7 +225,7 @@ const Home = () => `
                   ${Icon('settings', 'w-4 h-4 text-ink300')}
                 </div>
                 <p class="text-[13.5px] text-ink700 mt-3 leading-relaxed">Publiez vos idées, partagez vos contenus et échangez avec votre réseau en toute sécurité.</p>
-                <div class="flex items-center gap-5 mt-3.5 pt-3 border-t border-navy-200 text-[12px] text-ink500">
+                <div class="hero-preview-meta flex flex-wrap items-center gap-x-4 gap-y-2 mt-3.5 pt-3 border-t border-navy-200 text-[12px] text-ink500">
                   <span class="flex items-center gap-1.5">${Icon('like', 'w-4 h-4 text-ink500')}<span>Réactions</span></span>
                   <span class="flex items-center gap-1.5">${Icon('message', 'w-4 h-4 text-ink500')}<span>Commentaires</span></span>
                   <span class="flex items-center gap-1.5 ml-auto">${Icon('send', 'w-4 h-4 text-ink500')}<span>Partager</span></span>
