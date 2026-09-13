@@ -41,6 +41,9 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { overflow-x: hidden; }
+img, svg, video, canvas { max-width: 100%; }
+button, a { max-width: 100%; }
+input, textarea, select { max-width: 100%; }
 
 ::selection { background: rgba(176,141,63,.22); }
 
@@ -344,7 +347,9 @@ body { overflow-x: hidden; }
   border-radius: var(--r-btn);
   border: 1px solid transparent;
   cursor: pointer;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
+  overflow-wrap: anywhere;
   transition: background-color .22s ease, border-color .22s ease, color .22s ease;
 }
 .btn:disabled { opacity: .55; cursor: not-allowed; }
