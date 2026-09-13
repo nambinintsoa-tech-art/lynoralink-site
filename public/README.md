@@ -1,9 +1,9 @@
 # Fichier APK
 
-Déposez ici le fichier Android avec le nom exact :
+Le fichier Android déployé porte le nom exact :
 
 ```text
-lynoralink.apk
+LynoraLink.v1.0.apk
 ```
 
-Le bouton de téléchargement de la vitrine pointe vers `public/lynoralink.apk`.
+Le bouton de téléchargement de la vitrine pointe vers `public/LynoraLink.v1.0.apk`.
