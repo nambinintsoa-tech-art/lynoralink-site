@@ -86,6 +86,18 @@ body { overflow-x: hidden; }
   font-weight: 600;
 }
 .num-tab { font-variant-numeric: tabular-nums; }
+.footer-contact__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #eadfc2;
+  border-radius: 8px;
+  color: var(--brass-2);
+  background: var(--brass-wash);
+}
 
 /* ---------------- Top navigation ---------------- */
 .topnav {
@@ -136,15 +148,31 @@ body { overflow-x: hidden; }
   transform: translateX(-50%);
 }
 .topnav-cta { box-shadow: 0 4px 10px rgba(176, 141, 63, .18); }
+.topnav-menu { display: none; }
 
 @media (max-width: 720px) {
-  .topnav__inner { min-height: 60px; gap: 10px; }
-  .topnav-brand span { display: none; }
+  .topnav__inner { min-height: 60px; gap: 10px; padding: 10px 14px; }
+  .topnav-brand { flex: none; }
+  .topnav-brand span { display: inline; }
+  .topnav-brand { gap: 8px; font-size: 13px; }
+  .topnav-brand img { width: 30px !important; height: 30px !important; }
   .topnav-brand::after { display: none; }
-  .topnav-links { gap: 0; }
-  .topnav-link { padding: 8px 9px; font-size: 12px; }
-  .topnav-cta { padding-left: 10px; padding-right: 10px; }
-  .topnav-cta svg { display: none; }
+  .topnav-menu { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; margin-left: auto; padding: 0; color: var(--ink-700); border: 0; border-radius: 0; background: transparent; box-shadow: none; transition: color .2s ease, transform .2s ease; }
+  .topnav-menu:hover { color: var(--brass-2); background: transparent; }
+  .topnav--open .topnav-menu { color: var(--brass-2); background: transparent; transform: rotate(2deg); }
+  .topnav-links { display: none !important; position: fixed; top: 60px; right: 0; bottom: 0; left: auto; width: min(82vw, 310px); height: calc(100vh - 60px) !important; flex-direction: column; align-items: stretch; gap: 4px; padding: 22px 16px 18px; border: 0; border-left: 2px solid var(--brass); border-radius: 0; background: var(--navy-800); box-shadow: -14px 0 34px rgba(16, 24, 40, .28); overflow-y: auto; }
+  .topnav--open .topnav-links { display: flex !important; }
+  .topnav-link { width: 100%; padding: 13px 13px; text-align: left; font-size: 13px; font-weight: 600; border-radius: 8px; color: rgba(255, 255, 255, .7); }
+  .topnav-link:hover { color: #fff; background: rgba(255, 255, 255, .07); }
+  .topnav-link.active { color: #fff; background: rgba(176, 141, 63, .2); }
+  .topnav-link.active::after { left: 4px; bottom: 50%; width: 3px; height: 18px; background: var(--brass); transform: translateY(50%); }
+  .topnav-cta { display: none; }
+  .topnav--open .topnav-cta { display: inline-flex; width: 100%; margin-top: auto; border-radius: 8px; }
+  .topnav ~ main { padding-top: 60px !important; }
+}
+
+@media (max-width: 420px) {
+  .topnav__inner { padding-left: 10px; padding-right: 10px; }
 }
 
 /* ---------------- Download page ---------------- */
@@ -217,9 +245,40 @@ body { overflow-x: hidden; }
   color: var(--brass-2);
 }
 
+@media (max-width: 720px) {
+  .footer-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 18px;
+    overflow: visible;
+    padding: 2px 0 0;
+  }
+  .footer-grid > div {
+    min-width: 0;
+    width: auto;
+  }
+  .footer-grid > div:first-child { grid-column: 1 / -1; }
+}
+
 @media (max-width: 640px) {
   .download-card { min-height: 0; }
   .download-card__visual { min-height: 108px; padding: 24px; }
+  .download-card .p-7 { padding: 24px; }
+  .download-card h2 { font-size: 24px; }
+  .download-card .btn { width: 100%; }
+}
+
+/* ---------------- Mobile layout safeguards ---------------- */
+@media (max-width: 640px) {
+  .hero-bg .relative.max-w-7xl,
+  .download-hero .max-w-7xl { padding-left: 20px; padding-right: 20px; }
+  .hero-bg h1 { font-size: 42px !important; max-width: 11ch; }
+  .hero-bg .text-lead { font-size: 15px; }
+  .hero-bg .btn-lg { width: 100%; }
+  .hero-bg .flex.flex-wrap { gap: 10px; }
+  .download-hero h1 { font-size: 42px !important; }
+  .download-hero p { font-size: 15px; }
+  .legal-content .panel { padding: 24px; }
 }
 
 /* ---------------- Hairlines & rules ---------------- */

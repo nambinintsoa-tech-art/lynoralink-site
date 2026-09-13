@@ -118,31 +118,34 @@ const Sidebar = () => `
   </aside>`;
 
 const Topbar = () => `
-  <header class="topnav fixed top-0 inset-x-0 z-50">
+  <header class="topnav ${state.sidebarOpen ? 'topnav--open' : ''} fixed top-0 inset-x-0 z-50">
     <div class="topnav__inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center gap-5">
       <button onclick="navigate('home')" class="topnav-brand flex items-center gap-2.5 shrink-0" aria-label="Accueil LynoraLink">
         ${Logo(34)}
         <span class="font-semibold text-[15px] tracking-[-0.01em]"><span class="text-gold-500">Lynora</span><span class="text-navy-950">Link</span></span>
+      </button>
+      <button onclick="toggleSidebar()" class="topnav-menu" aria-label="Ouvrir le menu" aria-expanded="${state.sidebarOpen}">
+        ${Icon(state.sidebarOpen ? 'x' : 'menu', 'w-5 h-5')}
       </button>
       <nav class="topnav-links flex items-center gap-1 overflow-x-auto min-w-0 ml-auto" aria-label="Navigation principale">
         ${NAV.map(n => `
           <button onclick="navigate('${n.id}')" class="topnav-link ${state.route === n.id ? 'active' : ''}" aria-current="${state.route === n.id ? 'page' : 'false'}">
             ${n.label}
           </button>`).join('')}
+        <button onclick="navigate('download')" class="topnav-cta btn btn-accent btn-sm shrink-0">Télécharger ${Icon('arrowDown', 'w-3.5 h-3.5')}</button>
       </nav>
-      <button onclick="navigate('download')" class="topnav-cta btn btn-accent btn-sm shrink-0">Télécharger ${Icon('arrowDown', 'w-3.5 h-3.5')}</button>
     </div>
   </header>`;
 
 const Footer = () => `
   <footer class="bg-navy-50 border-t border-navy-200 mt-20">
     <div class="max-w-7xl mx-auto px-6 lg:px-10 py-14">
-      <div class="grid md:grid-cols-12 gap-10">
+      <div class="footer-grid grid md:grid-cols-12 gap-10">
         <div class="md:col-span-5">
           <div class="flex items-center gap-3 mb-4">
             ${Logo(34)}
             <div>
-              <p class="font-semibold text-[15px] tracking-[-0.01em]">LynoraLink</p>
+              <p class="font-semibold text-[15px] tracking-[-0.01em]"><span class="text-gold-500">Lynora</span><span class="text-navy-950">Link</span></p>
               <p class="eyebrow" style="margin-top:2px">Connectez en toute sécurité</p>
             </div>
           </div>
@@ -166,11 +169,12 @@ const Footer = () => `
           </ul>
         </div>
         <div class="md:col-span-2">
-          <p class="eyebrow-neutral mb-3.5">Suivez-nous</p>
-          <div class="flex gap-2">
-            ${['globe', 'at', 'send', 'hash'].map(i => `
-              <a href="#" aria-label="Réseau" class="w-9 h-9 rounded-[10px] border border-navy-200 bg-white text-ink500 hover:text-ink hover:border-navy-300 flex items-center justify-center transition-colors">${Icon(i, 'w-4 h-4')}</a>`).join('')}
-          </div>
+          <p class="eyebrow-neutral mb-3.5">Contactez-nous</p>
+          <a href="mailto:contact@lynoralink.com" class="footer-contact flex items-start gap-2.5 text-[13px] text-ink700 hover:text-ink transition-colors">
+            <span class="footer-contact__icon">${Icon('mail', 'w-4 h-4')}</span>
+            <span class="break-all">contact@lynoralink.com</span>
+          </a>
+          <p class="text-[11.5px] leading-relaxed text-mist mt-3">Une question sur LynoraLink ? Écrivez-nous.</p>
         </div>
       </div>
     </div>
@@ -464,7 +468,7 @@ const Download = () => `
               <li>${Icon('check', 'w-4 h-4')} Appels vocaux et vidéo</li>
             </ul>
             <div class="mt-auto pt-8 flex items-center justify-between gap-4 flex-wrap">
-              <a href="assets/lynoralink.apk" download class="btn btn-accent btn-lg">Télécharger l'APK ${Icon('arrowDown', 'w-4 h-4')}</a>
+              <a href="public/lynoralink.apk" download class="btn btn-accent btn-lg">Télécharger l'APK ${Icon('arrowDown', 'w-4 h-4')}</a>
               <span class="text-[11.5px] text-mist">Fichier Android</span>
             </div>
           </div>
@@ -484,7 +488,7 @@ const Download = () => `
               <li>${Icon('check', 'w-4 h-4')} Une expérience fluide et responsive</li>
             </ul>
             <div class="mt-auto pt-8 flex items-center justify-between gap-4 flex-wrap">
-              <a href="index.html#home" class="btn btn-outline btn-lg">Ouvrir la version web ${Icon('arrowUpRight', 'w-4 h-4')}</a>
+              <a href="https://app.lynoralink.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-lg">Ouvrir la version web ${Icon('arrowUpRight', 'w-4 h-4')}</a>
               <span class="text-[11.5px] text-mist">Sans installation</span>
             </div>
           </div>

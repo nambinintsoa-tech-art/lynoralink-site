@@ -16,7 +16,10 @@ frontend/
 ├── app.js           # Navigation et contenu des pages
 ├── styles.css       # Design responsive
 └── assets/
-    └── logo.png     # Logo LynoraLink
+    ├── logo.png     # Logo LynoraLink
+    └── public/
+        ├── README.md
+        └── lynoralink.apk # APK Android à ajouter
 ```
 
 Ne publiez pas le dossier parent `web/` comme racine du site. Le contenu de `frontend/` doit être la racine publique : le fichier `index.html` doit être accessible directement à l’adresse du domaine.
@@ -232,12 +235,12 @@ Vercel fournit automatiquement un certificat SSL pour les domaines correctement 
 Le bouton Android pointe vers le chemin relatif suivant :
 
 ```text
-assets/lynoralink.apk
+public/lynoralink.apk
 ```
 
 Pour rendre le téléchargement disponible :
 
-1. Ajoutez le fichier APK réel dans `frontend/assets/lynoralink.apk`.
+1. Ajoutez le fichier APK réel dans `frontend/public/lynoralink.apk`.
 2. Conservez exactement ce nom ou modifiez le lien dans `frontend/app.js`.
 3. Republiez le dossier `frontend/` sur LWS ou redéployez le projet Vercel.
 4. Testez le bouton depuis un téléphone Android.
@@ -319,7 +322,7 @@ Videz le cache du navigateur avec `Ctrl+F5`. Sur Vercel, vérifiez le dernier d�
 
 ### Le bouton APK ne télécharge rien
 
-Vérifiez que `frontend/assets/lynoralink.apk` existe réellement avant l’envoi. Un lien HTML ne peut pas créer l’APK.
+Vérifiez que `frontend/public/lynoralink.apk` existe réellement avant l’envoi. Un lien HTML ne peut pas créer l’APK.
 
 ### Le domaine ne répond pas après modification DNS
 
