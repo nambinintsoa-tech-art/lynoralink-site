@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LynoraLink - Réseau social interactif moderne. Connecter, partager, interagir." />
+  <meta name="theme-color" content="#101a33" />
+  <title>LynoraLink — Connecter, partager, interagir</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              50: '#fbfbfc', 100: '#f4f5f6', 200: '#e9eaec', 300: '#d0d3d8',
+              400: '#a4abb5', 500: '#737d8c', 600: '#4c5871', 700: '#38435c',
+              800: '#242f47', 900: '#171f33', 950: '#101a33', 975: '#0c1428',
+            },
+            gold: {
+              50: '#fbf8f1', 100: '#f5eedd', 200: '#e9ddc4', 300: '#d8c79a',
+              400: '#c7ac6a', 500: '#b08d3f', 600: '#9a772f', 700: '#7d6027',
+              800: '#664e21', 900: '#55401d',
+            },
+            ink: '#101828',
+            ink700: '#344054',
+            ink500: '#667085',
+            ink300: '#d0d5dd',
+            slatey: '#667085',
+            mist: '#98a2b3',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          fontSize: {
+            '2xs': ['0.6875rem', { lineHeight: '1rem' }],
+          },
+          letterSpacing: {
+            tightest: '-0.032em',
+            editorial: '.14em',
+          },
+          maxWidth: {
+            '7xl': '78rem',
+            '8xl': '88rem',
+          },
+          boxShadow: {
+            'xs': '0 1px 2px rgba(16,24,40,.05)',
+            'soft': '0 4px 10px -2px rgba(16,24,40,.07), 0 2px 4px -2px rgba(16,24,40,.04)',
+            'lift': '0 14px 30px -10px rgba(16,24,40,.14)',
+            'xl': '0 24px 48px -12px rgba(16,24,40,.16)',
+          },
+          animation: {
+            'page-in': 'pageIn 0.4s cubic-bezier(.2,.8,.2,1)',
+            'dot': 'dotPulse 2.4s ease-in-out infinite',
+          },
+          keyframes: {
+            pageIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            dotPulse: { '0%,100%': { opacity: '1' }, '50%': { opacity: '.35' } },
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="font-sans bg-white text-ink antialiased">
+  <div id="app"></div>
+  <script src="app.js"></script>
+</body>
+</html>
