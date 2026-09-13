@@ -4,7 +4,7 @@
 
 LynoraLink est une vitrine web statique responsive. Elle présente l’application, ses fonctionnalités, ses offres, sa page de téléchargement et ses informations légales.
 
-Cette version ne nécessite ni serveur applicatif, ni base de données, ni backend Node.js. Elle peut être publiée directement sur un hébergement de fichiers comme LWS ou sur Vercel.
+Cette version ne nécessite ni serveur applicatif, ni base de données, ni backend Node.js. Elle peut être publiée directement sur un hébergement de fichiers comme LWS.
 
 ## 1. Ce qui est déployé
 
@@ -175,62 +175,7 @@ Le site doit finalement utiliser l’adresse HTTPS.
 
 Si le domaine est géré ailleurs, utilisez les enregistrements communiqués par LWS dans votre espace client. Après modification DNS, la propagation peut prendre du temps. Ne modifiez pas les enregistrements mail existants sans vérifier leur usage.
 
-## 6. Déploiement sur Vercel avec GitHub
-
-### Préparer le dépôt
-
-1. Placez le projet dans un dépôt Git.
-2. Vérifiez que `frontend/index.html` existe.
-3. Vérifiez que `frontend/app.js`, `frontend/styles.css` et `frontend/assets/logo.png` sont versionnés.
-4. Poussez les modifications vers GitHub, GitLab ou Bitbucket.
-
-### Créer le projet Vercel
-
-1. Connectez-vous à Vercel.
-2. Cliquez sur **Add New Project**.
-3. Importez le dépôt contenant LynoraLink.
-4. Dans **Root Directory**, laissez la valeur par défaut `.` (racine du dépôt). Ne sélectionnez pas `frontend`, car ce dépôt contient déjà `index.html` à sa racine.
-5. Choisissez **Other** ou **No Framework** si Vercel le propose.
-6. Laissez les champs de build vides :
-
-```text
-Build Command: aucune
-Output Directory: .
-Install Command: aucune
-```
-
-7. Cliquez sur **Deploy**.
-
-Vercel servira directement `index.html` comme page d’accueil.
-
-### Déploiement Vercel avec la CLI
-
-La CLI Vercel est optionnelle. Depuis le dossier `frontend/` :
-
-```bash
-npx vercel
-```
-
-Pour un déploiement de production :
-
-```bash
-npx vercel --prod
-```
-
-La CLI peut demander une connexion et le choix d’un projet. Depuis ce dépôt, lancez la commande dans le dossier qui contient `index.html` et sélectionnez `.` comme racine du projet.
-
-### Domaine personnalisé sur Vercel
-
-1. Ouvrez le projet Vercel.
-2. Allez dans **Settings > Domains**.
-3. Ajoutez votre domaine.
-4. Configurez les enregistrements DNS demandés par Vercel auprès de votre registrar.
-5. Attendez la validation DNS et SSL.
-6. Activez l’URL principale souhaitée, avec HTTPS.
-
-Vercel fournit automatiquement un certificat SSL pour les domaines correctement configurés.
-
-## 7. Fichier APK Android
+## 6. Fichier APK Android
 
 Le bouton Android pointe vers le chemin relatif suivant :
 
@@ -242,12 +187,12 @@ Pour rendre le téléchargement disponible :
 
 1. Envoyez le fichier `public/LynoraLink.v1.0.apk` avec le reste du dossier.
 2. Conservez exactement ce nom ou modifiez le lien dans `frontend/app.js`.
-3. Republiez le dossier `frontend/` sur LWS ou redéployez le projet Vercel.
+3. Republiez le dossier `frontend/` sur LWS.
 4. Testez le bouton depuis un téléphone Android.
 
 Le fichier APK n’est pas généré par cette vitrine statique. Il doit être produit et signé séparément avec votre chaîne Android.
 
-## 8. Ressources externes
+## 7. Ressources externes
 
 Le fichier `index.html` utilise actuellement :
 
@@ -256,7 +201,7 @@ Le fichier `index.html` utilise actuellement :
 
 Une connexion internet est donc nécessaire pour récupérer ces ressources depuis un navigateur neuf. Pour un fonctionnement totalement autonome, remplacez ces ressources par une feuille CSS générée localement et une police hébergée dans `frontend/assets/`.
 
-## 9. Modifier le site
+## 8. Modifier le site
 
 ### Modifier le contenu
 
@@ -292,7 +237,7 @@ frontend/assets/logo.png
 4. Testez les liens du footer et le sommaire de la page légale.
 5. Vérifiez la version mobile avec les outils développeur du navigateur.
 
-## 10. Dépannage
+## 9. Dépannage
 
 ### La page affiche une erreur 404
 
@@ -318,7 +263,7 @@ Respectez les majuscules et minuscules du nom du fichier.
 
 ### Les anciennes modifications ne sont pas visibles
 
-Videz le cache du navigateur avec `Ctrl+F5`. Sur Vercel, vérifiez le dernier déploiement et le commit utilisé. Sur LWS, vérifiez la date de modification du fichier FTP.
+Videz le cache du navigateur avec `Ctrl+F5`. Sur LWS, vérifiez la date de modification du fichier FTP.
 
 ### Le bouton APK ne télécharge rien
 
@@ -326,9 +271,9 @@ Vérifiez que `public/LynoraLink.v1.0.apk` existe réellement avant l’envoi. U
 
 ### Le domaine ne répond pas après modification DNS
 
-Vérifiez les enregistrements demandés par LWS ou Vercel, le dossier racine configuré et la propagation DNS. Utilisez temporairement l’URL fournie par l’hébergeur pour distinguer un problème DNS d’un problème de fichiers.
+Vérifiez les enregistrements demandés par LWS, le dossier racine configuré et la propagation DNS.
 
-## 11. Limites de la version statique
+## 10. Limites de la version statique
 
 Cette vitrine :
 
@@ -341,7 +286,7 @@ Cette vitrine :
 
 Ces fonctionnalités nécessiteraient une application serveur, une API et un stockage persistant séparés.
 
-## 12. Checklist avant mise en ligne
+## 11. Checklist avant mise en ligne
 
 - [ ] `frontend/index.html` est présent.
 - [ ] `frontend/app.js` est présent.
