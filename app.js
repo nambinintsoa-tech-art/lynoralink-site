@@ -187,9 +187,9 @@ const Footer = () => `
         </div>
         <div class="md:col-span-2">
           <p class="footer-v2__col-title mb-3.5">Contact</p>
-          <a href="mailto:contact@lynoralink.com" class="footer-v2__link flex items-start gap-2 text-[13px]">
+          <button type="button" onclick="navigate('contact')" class="footer-v2__link flex items-start gap-2 text-[13px] text-left">
             <span class="break-all">contact@lynoralink.com</span>
-          </a>
+          </button>
           <p class="text-[11.5px] leading-relaxed mt-3 opacity-60">Une question sur LynoraLink ? Écrivez-nous.</p>
         </div>
       </div>
@@ -1089,7 +1089,7 @@ const checkStrength = (val) => {
 
 /* ===================== ROUTER & RENDER ===================== */
 
-const pages = { home: Home, features: Features, pricing: Pricing, about: About, download: Download, legal: Legal };
+const pages = { home: Home, features: Features, pricing: Pricing, about: About, download: Download, contact: Contact, legal: Legal };
 
 const render = () => {
   const hashRoute = location.hash.slice(1) || 'home';
