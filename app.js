@@ -143,13 +143,10 @@ const Footer = () => `
     <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-16">
       <div class="footer-v2__cta">
         <div>
-          <p class="eyebrow mb-2">Restez informé</p>
-          <h3 class="text-white text-[20px] lg:text-[24px] font-semibold tracking-[-0.02em] max-w-sm">Suivez l'évolution de LynoraLink avant son lancement public.</h3>
+          <p class="eyebrow mb-2">Une question ?</p>
+          <h3 class="text-white text-[20px] lg:text-[24px] font-semibold tracking-[-0.02em] max-w-sm">Parlons de votre projet et de vos besoins.</h3>
         </div>
-        <form onsubmit="subscribe(event)" class="flex flex-wrap gap-2.5 mt-6 lg:mt-0 lg:shrink-0 lg:w-[360px]">
-          <input type="email" required placeholder="votre@email.com" class="footer-v2__input flex-1 min-w-[180px]" />
-          <button class="btn btn-accent btn-sm shrink-0">S'inscrire</button>
-        </form>
+        <button type="button" onclick="navigate('contact')" class="btn btn-accent btn-sm mt-6 lg:mt-0 lg:shrink-0">Nous contacter ${Icon('arrowRight', 'w-4 h-4')}</button>
       </div>
     </div>
 
