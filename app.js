@@ -1,6 +1,6 @@
 /* =====================================================================
-   LynoraLink — Application Frontend (SPA) · v2 « Editorial Enterprise »
-   Sobriété · hairlines · or en accent rare · rythme éditorial
+   LynoraLink — Application Frontend (SPA) · v3 « Aurora »
+   Refonte du design et de la structure — logique et couleurs inchangées
    ===================================================================== */
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -65,7 +65,7 @@ const toast = (msg, type = 'success') => {
   const c = { success: 'bg-ink border-navy-700', error: 'bg-rose-800 border-rose-600', info: 'bg-ink border-navy-700' };
   const ic = { success: 'check', error: 'close', info: 'bell' };
   const el = document.createElement('div');
-  el.className = `fixed top-5 right-5 z-[100] ${c[type]} text-white text-[13.5px] font-medium px-4 py-3 rounded-[10px] border shadow-lift flex items-center gap-2.5`;
+  el.className = `fixed top-5 right-5 z-[100] ${c[type]} text-white text-[13.5px] font-medium px-4 py-3 rounded-[14px] border shadow-lift flex items-center gap-2.5`;
   el.style.animation = 'toastIn .38s cubic-bezier(.2,.8,.2,1) both';
   el.innerHTML = `${Icon(ic[type], 'w-4 h-4 text-gold-400')} <span>${msg}</span>`;
   document.body.appendChild(el);
@@ -96,53 +96,27 @@ const NAV = [
   { id: 'download', label: 'Téléchargement', icon: 'arrowDown' },
 ];
 
-const Sidebar = () => `
-  <aside class="sidebar fixed inset-y-0 left-0 z-50 w-[264px] flex flex-col transition-transform duration-300 ${state.sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:z-30">
-    <div class="px-5 pt-6 pb-5 flex items-center gap-3">
-      ${Logo(36)}
-      <div class="min-w-0">
-        <p class="text-white font-semibold text-[15px] leading-tight tracking-[-0.01em]">LynoraLink</p>
-        <p class="text-[9.5px] tracking-[.18em] uppercase text-white/40 mt-0.5">Réseau social interactif</p>
-      </div>
-      <button onclick="toggleSidebar()" class="lg:hidden ml-auto text-white/60 hover:text-white p-1" aria-label="Fermer">${Icon('x', 'w-5 h-5')}</button>
-    </div>
-    <div class="px-5 pb-2">
-      <p class="text-[9.5px] font-semibold tracking-[.16em] uppercase text-white/30 px-3 mb-2">Navigation</p>
-      <nav class="space-y-1">
-        ${NAV.map(n => `
-          <button onclick="navigate('${n.id}')" class="sidebar-link w-full text-left ${state.route === n.id ? 'active' : ''}">
-            ${Icon(n.icon, 'w-[17px] h-[17px]')}<span>${n.label}</span>
-          </button>`).join('')}
-      </nav>
-    </div>
-    <div class="mt-auto px-5 pb-6 space-y-3">
-      <button onclick="navigate('download')" class="btn btn-accent w-full btn-sm">Télécharger l&#39;application ${Icon('arrowDown', 'w-4 h-4')}</button>
-      <p class="text-[10px] text-white/30 text-center pt-1">© 2026 LynoraLink</p>
-    </div>
-  </aside>`;
-
 const HERO_ROUTES = ['home', 'download'];
 
+/* Barre de navigation unique — capsule flottante centrée */
 const Topbar = () => `
-  <header id="siteHeader" class="topnav-v2 fixed top-0 inset-x-0 z-50 px-3 sm:px-5 ${HERO_ROUTES.includes(state.route) ? '' : 'topnav-v2--solid'}">
-    <div class="topnav-v2__bar max-w-7xl mx-auto">
-      <div class="topnav-v2__inner flex items-center gap-4 px-4 sm:px-5">
-        <button onclick="navigate('home')" class="flex items-center gap-2.5 shrink-0" aria-label="Accueil LynoraLink">
-          ${Logo(30)}
-          <span class="topnav-v2__brand-text font-semibold text-[14.5px] tracking-[-0.01em] text-white"><b class="text-gold-400">Lynora</b>Link</span>
-        </button>
+  <header id="siteHeader" class="nav-shell ${HERO_ROUTES.includes(state.route) ? '' : 'nav-shell--solid'}">
+    <div class="nav-capsule">
+      <button onclick="navigate('home')" class="nav-brand" aria-label="Accueil LynoraLink">
+        ${Logo(30)}
+        <span class="nav-brand-text font-semibold text-[14.5px] tracking-[-0.01em]"><b class="text-gold-400">Lynora</b>Link</span>
+      </button>
 
-        <nav class="nav-pill-group hidden lg:inline-flex ml-2" aria-label="Navigation principale">
-          ${NAV.map(n => `
-            <button onclick="navigate('${n.id}')" class="nav-pill-link ${state.route === n.id ? 'active' : ''}" aria-current="${state.route === n.id ? 'page' : 'false'}">${n.label}</button>`).join('')}
-        </nav>
+      <nav class="nav-links" aria-label="Navigation principale">
+        ${NAV.map(n => `
+          <button onclick="navigate('${n.id}')" class="nav-link ${state.route === n.id ? 'active' : ''}" aria-current="${state.route === n.id ? 'page' : 'false'}">${n.label}</button>`).join('')}
+      </nav>
 
-        <button onclick="navigate('download')" class="topnav-v2__cta hidden lg:inline-flex btn btn-accent btn-sm ml-auto shrink-0">Télécharger ${Icon('arrowDown', 'w-3.5 h-3.5')}</button>
+      <button onclick="navigate('download')" class="nav-cta btn btn-accent btn-sm">Télécharger ${Icon('arrowDown', 'w-3.5 h-3.5')}</button>
 
-        <button onclick="toggleSidebar()" class="topnav-v2__menu-btn ml-auto lg:hidden" aria-label="Ouvrir le menu" aria-expanded="${state.sidebarOpen}">
-          ${Icon('menu', 'w-5 h-5')}
-        </button>
-      </div>
+      <button onclick="toggleSidebar()" class="nav-burger" aria-label="Ouvrir le menu" aria-expanded="${state.sidebarOpen}">
+        ${Icon('menu', 'w-5 h-5')}
+      </button>
     </div>
   </header>`;
 
@@ -152,7 +126,7 @@ const MobileDrawer = () => `
     <div class="mobile-drawer__panel">
       <div class="flex items-center justify-between mb-6">
         <span class="flex items-center gap-2.5">${Logo(28)}<span class="font-semibold text-[14px] text-white"><span class="text-gold-400">Lynora</span>Link</span></span>
-        <button onclick="toggleSidebar()" class="topnav-v2__menu-btn" aria-label="Fermer le menu">${Icon('x', 'w-5 h-5')}</button>
+        <button onclick="toggleSidebar()" class="nav-burger" aria-label="Fermer le menu">${Icon('x', 'w-5 h-5')}</button>
       </div>
       <nav class="space-y-1 flex-1">
         ${NAV.map(n => `
@@ -186,7 +160,6 @@ const Footer = () => `
             ${Logo(34)}
             <div>
               <p class="font-semibold text-[15px] tracking-[-0.01em] text-white">Lynora<span class="text-gold-400">Link</span></p>
-              <p class="footer-v2__status mt-1"><span class="footer-v2__status-dot dot-pulse"></span>Vitrine active — lancement en préparation</p>
             </div>
           </div>
           <p class="text-[13.5px] leading-relaxed max-w-sm">
@@ -194,7 +167,6 @@ const Footer = () => `
             conversations temps réel et appels vidéo HD dans une expérience fluide et sécurisée.
           </p>
           <div class="flex items-center gap-2.5 mt-6">
-            <a href="mailto:contact@lynoralink.com" class="footer-v2__social" aria-label="Email">${Icon('mail', 'w-[17px] h-[17px]')}</a>
             <a href="https://app.lynoralink.com" target="_blank" rel="noopener noreferrer" class="footer-v2__social" aria-label="Version web">${Icon('globe', 'w-[17px] h-[17px]')}</a>
             <a href="public/LynoraLink.v1.0.apk" download class="footer-v2__social" aria-label="Télécharger l'APK">${Icon('android', 'w-[17px] h-[17px]')}</a>
           </div>
@@ -235,14 +207,14 @@ const Footer = () => `
 
 const ShowcaseMock = {
   feed: () => `
-    <div class="bg-white rounded-xl p-4 shadow-lift">
+    <div class="bg-white rounded-2xl p-4 shadow-lift">
       <div class="flex items-center gap-2.5">
         <span class="icon-tile-solid w-8 h-8 !rounded-full">${Icon('user', 'w-3.5 h-3.5')}</span>
         <div class="flex-1 min-w-0"><p class="text-[12.5px] font-semibold text-ink leading-tight">Mia R.</p><p class="text-[10.5px] text-mist">à l'instant</p></div>
         ${Icon('mapPin', 'w-3.5 h-3.5 text-ink300')}
       </div>
       <p class="text-[13px] text-ink700 mt-3 leading-relaxed">Nouvelle publication avec la communauté ✨</p>
-      <div class="rounded-lg bg-navy-100 h-24 mt-3"></div>
+      <div class="rounded-xl bg-navy-100 h-24 mt-3"></div>
       <div class="flex items-center gap-4 mt-3 pt-3 border-t border-navy-200 text-[11.5px] text-ink500">
         <span class="flex items-center gap-1.5">${Icon('like', 'w-3.5 h-3.5')}128</span>
         <span class="flex items-center gap-1.5">${Icon('message', 'w-3.5 h-3.5')}24</span>
@@ -250,15 +222,15 @@ const ShowcaseMock = {
       </div>
     </div>`,
   chat: () => `
-    <div class="bg-white rounded-xl p-4 shadow-lift">
+    <div class="bg-white rounded-2xl p-4 shadow-lift">
       <div class="flex items-center gap-2.5 pb-3 border-b border-navy-200">
         <span class="icon-tile-solid w-8 h-8 !rounded-full">${Icon('users', 'w-3.5 h-3.5')}</span>
         <p class="text-[12.5px] font-semibold text-ink">Équipe Design</p>
         <span class="w-2 h-2 rounded-full bg-emerald-400 ml-auto"></span>
       </div>
       <div class="space-y-2 mt-3">
-        <p class="bg-navy-100 text-ink700 text-[12px] rounded-lg rounded-bl-none px-3 py-2 w-[76%]">On lance l'appel dans 5 min ?</p>
-        <p class="bg-navy-950 text-white text-[12px] rounded-lg rounded-br-none px-3 py-2 w-[68%] ml-auto">Parfait, j'arrive 🎥</p>
+        <p class="bg-navy-100 text-ink700 text-[12px] rounded-xl rounded-bl-none px-3 py-2 w-[76%]">On lance l'appel dans 5 min ?</p>
+        <p class="bg-navy-950 text-white text-[12px] rounded-xl rounded-br-none px-3 py-2 w-[68%] ml-auto">Parfait, j'arrive 🎥</p>
       </div>
       <div class="flex items-center gap-2 mt-3 pt-3 border-t border-navy-200">
         ${Icon('phone', 'w-4 h-4 text-ink500')}${Icon('video', 'w-4 h-4 text-ink500')}
@@ -266,52 +238,43 @@ const ShowcaseMock = {
       </div>
     </div>`,
   ai: () => `
-    <div class="bg-white rounded-xl p-4 shadow-lift">
+    <div class="bg-white rounded-2xl p-4 shadow-lift">
       <div class="flex items-center gap-2 text-[11.5px] font-semibold text-ink700">${Icon('zap', 'w-4 h-4 text-gold-600')}Assistant IA</div>
-      <div class="rounded-lg border border-navy-200 bg-navy-50 text-[12px] text-ink500 px-3 py-2 mt-3">« Génère une image pour mon prochain post… »</div>
-      <div class="rounded-lg bg-gradient-to-br from-gold-100 to-navy-100 h-20 mt-3 flex items-center justify-center text-gold-700">${Icon('image', 'w-6 h-6')}</div>
+      <div class="rounded-xl border border-navy-200 bg-navy-50 text-[12px] text-ink500 px-3 py-2 mt-3">« Génère une image pour mon prochain post… »</div>
+      <div class="rounded-xl bg-gradient-to-br from-gold-100 to-navy-100 h-20 mt-3 flex items-center justify-center text-gold-700">${Icon('image', 'w-6 h-6')}</div>
       <div class="flex items-center gap-2 mt-3 pt-3 border-t border-navy-200 text-[11px] text-ink500">
         ${Icon('check', 'w-3.5 h-3.5 text-gold-600')} Image générée · prête à publier
       </div>
     </div>`,
   business: () => `
-    <div class="bg-white rounded-xl p-4 shadow-lift">
+    <div class="bg-white rounded-2xl p-4 shadow-lift">
       <div class="flex items-center gap-2.5">
-        <span class="icon-tile-solid w-8 h-8 !rounded-[9px]">${Icon('mapPin', 'w-3.5 h-3.5')}</span>
-        <div class="flex-1 min-w-0"><p class="text-[12.5px] font-semibold text-ink leading-tight">Atelier Nova</p><p class="text-[10.5px] text-mist">Page entreprise</p></div>
-        <span class="pill pill-accent !text-[9px] !py-1">Premium</span>
+        <span class="icon-tile-solid w-8 h-8 !rounded-[10px]">${Icon('mapPin', 'w-3.5 h-3.5')}</span>
+        <div class="flex-1 min-w-0"><p class="text-[12.5px] font-semibold text-ink leading-tight">Atelier Nova</p><p class="text-[10.5px] text-mist">Page entreprise · Premium</p></div>
+        ${Icon('star', 'w-3.5 h-3.5 text-gold-500')}
       </div>
-      <div class="rounded-lg border border-navy-200 px-3 py-2 mt-3 flex items-center gap-2 text-[11.5px] text-ink700">${Icon('users', 'w-3.5 h-3.5')}Recrute : Designer produit</div>
-      <div class="rounded-lg border border-navy-200 px-3 py-2 mt-2 flex items-center gap-2 text-[11.5px] text-ink700">${Icon('zap', 'w-3.5 h-3.5')}Publicité sponsorisée active</div>
-    </div>`,
-  group: () => `
-    <div class="bg-white rounded-xl p-4 shadow-lift">
-      <div class="flex items-center gap-2.5">
-        <span class="icon-tile-solid w-8 h-8 !rounded-[9px]">${Icon('users', 'w-3.5 h-3.5')}</span>
-        <div class="flex-1 min-w-0"><p class="text-[12.5px] font-semibold text-ink leading-tight">Créateurs Madagascar</p><p class="text-[10.5px] text-mist">1 240 membres</p></div>
+      <div class="rounded-xl bg-gradient-to-br from-navy-100 to-gold-100 h-20 mt-3"></div>
+      <div class="flex items-center gap-3 mt-3 pt-3 border-t border-navy-200 text-[11px] text-ink500">
+        <span class="flex items-center gap-1.5">${Icon('users', 'w-3.5 h-3.5')}2,4k abonnés</span>
+        <span class="ml-auto text-gold-600 font-semibold">Sponsorisé</span>
       </div>
-      <div class="flex -space-x-2 mt-3">
-        ${['avatar-1', 'avatar-2', 'avatar-3', 'avatar-4'].map(c => `<span class="avatar avatar-ring ${c} w-7 h-7 text-[10px]">•</span>`).join('')}
-      </div>
-      <div class="mt-3 pt-3 border-t border-navy-200 text-[11.5px] text-ink500">Groupe public · discussions actives</div>
     </div>`,
 };
 
 const SHOWCASE = [
-  { eyebrow: 'Fil d\'actualité', title: 'Publiez, réagissez, partagez.', desc: 'Un fil social riche : texte, image, vidéo — avec likes, commentaires et partages en temps réel.', mock: 'feed' },
-  { eyebrow: 'Messagerie & appels', title: 'Vos conversations, en direct.', desc: 'Messagerie instantanée et appels vocaux/vidéo HD chiffrés de bout en bout, pour vos échanges 1-à-1 ou de groupe.', mock: 'chat' },
-  { eyebrow: 'Assistant IA', title: 'Créez du contenu en un prompt.', desc: 'Générez images et articles directement depuis le fil de publication grâce à l\'IA intégrée.', mock: 'ai' },
-  { eyebrow: 'Pages entreprise', title: 'Une vitrine pro, intégrée.', desc: 'Recrutement, publicités sponsorisées et visibilité prioritaire pour les marques en mode Premium.', mock: 'business' },
-  { eyebrow: 'Communautés', title: 'Retrouvez vos passions.', desc: 'Créez ou rejoignez des groupes thématiques, publics ou privés, avec rôles et permissions.', mock: 'group' },
+  { eyebrow: 'Fil social', title: 'Publiez et engagez votre communauté', desc: 'Publications riches, réactions et commentaires en temps réel, pensés pour créer des conversations authentiques.', mock: 'feed' },
+  { eyebrow: 'Messagerie', title: 'Discutez et appelez sans friction', desc: 'Messagerie instantanée et appels vidéo HD, chiffrés de bout en bout, pour rester proche de votre réseau.', mock: 'chat' },
+  { eyebrow: 'Assistant IA', title: 'Créez du contenu en quelques secondes', desc: 'Générez images et articles directement depuis le fil de publication, sans quitter l\'application.', mock: 'ai' },
+  { eyebrow: 'Pages entreprise', title: 'Développez votre présence professionnelle', desc: 'Page entreprise dédiée, publicités sponsorisées et visibilité prioritaire avec le mode Premium.', mock: 'business' },
 ];
 
 const Showcase = () => `
-  <div id="showcase" class="showcase reveal">
-    <div class="showcase__track" id="showcaseTrack">
+  <div id="showcase" class="showcase">
+    <div id="showcaseTrack" class="showcase__track">
       ${SHOWCASE.map(s => `
         <div class="showcase__slide">
           <div>
-            <p class="showcase__eyebrow eyebrow !text-gold-400">${s.eyebrow}</p>
+            <p class="eyebrow showcase__eyebrow !text-gold-400">${s.eyebrow}</p>
             <h3 class="text-white text-[24px] lg:text-[30px] font-semibold tracking-[-0.02em] leading-[1.15] mt-2 max-w-[16ch]">${s.title}</h3>
             <p class="text-[14px] leading-relaxed text-white/60 mt-3 max-w-[46ch]">${s.desc}</p>
           </div>
@@ -359,79 +322,87 @@ const initShowcase = () => {
 
 /* ===================== HOME ===================== */
 
+const STATS = [
+  { n: '4', l: 'Piliers du produit' },
+  { n: '10+', l: 'Fonctionnalités clés' },
+  { n: 'HD', l: 'Appels vidéo' },
+  { n: '24/7', l: 'Disponibilité visée' },
+];
+
 const Home = () => `
   <div class="page-enter">
 
-    <!-- Hero -->
+    <!-- Hero : centré, carte flottante -->
     <section class="hero-bg relative overflow-hidden">
       <div class="hero-grid absolute inset-0 pointer-events-none"></div>
-      <div class="relative max-w-7xl mx-auto px-6 lg:px-10 pt-16 pb-14 lg:pt-24 lg:pb-20">
-        <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <div class="relative max-w-5xl mx-auto px-6 lg:px-10 pt-20 pb-12 lg:pt-28 lg:pb-16 text-center">
+        <p class="pill pill-navy mb-6 mx-auto w-fit">Réseau social interactif · Vitrine officielle</p>
+        <h1 class="display text-white text-[40px] leading-[1.08] sm:text-[54px] lg:text-[64px] max-w-[15ch] mx-auto">
+          Connecter, partager, interagir<span class="text-gold-400">.</span>
+        </h1>
+        <p class="text-lead text-white/65 max-w-[54ch] mt-6 mx-auto">
+          LynoraLink réunit profils personnalisés, publications enrichies, conversations
+          temps réel et appels vidéo HD — dans une plateforme élégante, sécurisée et
+          pensée pour les communautés modernes.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 mt-9">
+          <button onclick="navigate('download')" class="btn btn-accent btn-lg">Télécharger l&#39;application ${Icon('arrowDown', 'w-4 h-4')}</button>
+          <button onclick="navigate('features')" class="btn btn-dark btn-lg">Découvrir les fonctionnalités</button>
+        </div>
+      </div>
 
-          <div class="lg:col-span-7">
-            <p class="pill pill-navy mb-6">Réseau social interactif · Vitrine officielle</p>
-            <h1 class="display text-white text-[42px] leading-[1.06] sm:text-[54px] lg:text-[60px] max-w-[13ch]">
-              Connecter, partager,<br/>interagir<span class="text-gold-400">.</span>
-            </h1>
-            <p class="text-lead text-white/65 max-w-[52ch] mt-6">
-              LynoraLink réunit profils personnalisés, publications enrichies, conversations
-              temps réel et appels vidéo HD — dans une plateforme élégante, sécurisée et
-              pensée pour les communautés modernes.
-            </p>
-            <div class="flex flex-wrap gap-3 mt-9">
-              <button onclick="navigate('download')" class="btn btn-accent btn-lg">Télécharger l&#39;application ${Icon('arrowDown', 'w-4 h-4')}</button>
-              <button onclick="navigate('features')" class="btn btn-dark btn-lg">Découvrir les fonctionnalités</button>
-            </div>
-          </div>
-
-          <div class="lg:col-span-5 reveal">
-            <div class="glass-dark rounded-2xl p-5">
-              <div class="bg-white rounded-xl p-4 shadow-lift">
-                <div class="flex items-center gap-3">
-                  <span class="icon-tile-solid w-9 h-9 !rounded-full">${Icon('user', 'w-4 h-4')}</span>
-                  <div class="flex-1 min-w-0">
-                    <p class="text-[13px] font-semibold text-ink leading-tight">Votre espace LynoraLink</p>
-                    <p class="text-[11px] text-mist mt-0.5">Publication et échanges</p>
-                  </div>
-                  ${Icon('settings', 'w-4 h-4 text-ink300')}
-                </div>
-                <p class="text-[13.5px] text-ink700 mt-3 leading-relaxed">Publiez vos idées, partagez vos contenus et échangez avec votre réseau en toute sécurité.</p>
-                <div class="hero-preview-meta flex flex-wrap items-center gap-x-4 gap-y-2 mt-3.5 pt-3 border-t border-navy-200 text-[12px] text-ink500">
-                  <span class="flex items-center gap-1.5">${Icon('like', 'w-4 h-4 text-ink500')}<span>Réactions</span></span>
-                  <span class="flex items-center gap-1.5">${Icon('message', 'w-4 h-4 text-ink500')}<span>Commentaires</span></span>
-                  <span class="flex items-center gap-1.5 ml-auto">${Icon('send', 'w-4 h-4 text-ink500')}<span>Partager</span></span>
-                </div>
-              </div>
-              <div class="glass-dark rounded-xl mt-4 p-3.5 flex items-center gap-3">
-                <span class="icon-tile-solid w-9 h-9 !rounded-[9px]">${Icon('video', 'w-4 h-4')}</span>
+      <div class="relative max-w-4xl mx-auto px-6 lg:px-10 pb-16 lg:pb-20">
+        <div class="grid sm:grid-cols-2 gap-4 reveal">
+          <div class="glass-dark rounded-[20px] p-5 hero-float-card">
+            <div class="bg-white rounded-2xl p-4 shadow-lift">
+              <div class="flex items-center gap-3">
+                <span class="icon-tile-solid w-9 h-9 !rounded-full">${Icon('user', 'w-4 h-4')}</span>
                 <div class="flex-1 min-w-0">
-                  <p class="text-[12.5px] font-semibold text-white leading-tight">Communication temps réel</p>
-                  <p class="text-[11px] text-white/50 mt-0.5">Voix et vidéo haute définition</p>
+                  <p class="text-[13px] font-semibold text-ink leading-tight">Votre espace LynoraLink</p>
+                  <p class="text-[11px] text-mist mt-0.5">Publication et échanges</p>
                 </div>
-                <span class="w-2 h-2 rounded-full bg-rose-400 dot-pulse"></span>
+                ${Icon('settings', 'w-4 h-4 text-ink300')}
+              </div>
+              <p class="text-[13.5px] text-ink700 mt-3 leading-relaxed">Publiez vos idées, partagez vos contenus et échangez avec votre réseau en toute sécurité.</p>
+              <div class="hero-preview-meta flex flex-wrap items-center gap-x-4 gap-y-2 mt-3.5 pt-3 border-t border-navy-200 text-[12px] text-ink500">
+                <span class="flex items-center gap-1.5">${Icon('like', 'w-4 h-4 text-ink500')}<span>Réactions</span></span>
+                <span class="flex items-center gap-1.5">${Icon('message', 'w-4 h-4 text-ink500')}<span>Commentaires</span></span>
+                <span class="flex items-center gap-1.5 ml-auto">${Icon('send', 'w-4 h-4 text-ink500')}<span>Partager</span></span>
               </div>
             </div>
           </div>
+          <div class="glass-dark rounded-[20px] p-5 hero-float-card hero-float-card--delay flex flex-col justify-center">
+            <div class="flex items-center gap-3">
+              <span class="icon-tile-solid w-11 h-11 !rounded-[13px]">${Icon('video', 'w-5 h-5')}</span>
+              <div class="flex-1 min-w-0">
+                <p class="text-[13px] font-semibold text-white leading-tight">Communication temps réel</p>
+                <p class="text-[11.5px] text-white/50 mt-0.5">Voix et vidéo haute définition</p>
+              </div>
+              <span class="w-2 h-2 rounded-full bg-rose-400 dot-pulse"></span>
+            </div>
+            <div class="mt-4 pt-4 border-t border-white/10 flex items-center gap-2 text-[11.5px] text-white/55">
+              ${Icon('shield', 'w-4 h-4 text-gold-400')} Chiffrement de bout en bout
+            </div>
+          </div>
+        </div>
 
+        <div class="stat-strip mt-6 reveal">
+          ${STATS.map(s => `<div class="stat-strip__cell"><p class="stat-num">${s.n}</p><p class="stat-label">${s.l}</p></div>`).join('')}
         </div>
       </div>
     </section>
 
-    <!-- Showcase : carousel auto-défilant -->
-    <section class="max-w-7xl mx-auto px-6 lg:px-10 -mt-8 lg:-mt-12 relative z-10">
+    <!-- Vitrine : carousel auto-défilant -->
+    <section class="max-w-7xl mx-auto px-6 lg:px-10 -mt-6 lg:-mt-8 relative z-10">
       ${Showcase()}
     </section>
 
-    <!-- Plateforme : cartes numérotées -->
+    <!-- Plateforme : grille bento -->
     <section class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-24">
-      <div class="grid lg:grid-cols-12 gap-8 items-end mb-12">
-        <div class="lg:col-span-7">
-          <p class="eyebrow mb-3">La plateforme</p>
-          <h2 class="text-[32px] lg:text-[38px] font-semibold tracking-[-0.025em] leading-[1.1]">Une plateforme complète</h2>
-        </div>
-        <div class="lg:col-span-5">
-          <p class="text-[14.5px] leading-relaxed text-slatey">Des outils pensés pour créer, échanger et collaborer — dans un environnement fluide, sobre et sécurisé.</p>
-        </div>
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow mb-3 mx-auto w-fit">La plateforme</p>
+        <h2 class="text-[32px] lg:text-[40px] font-semibold tracking-[-0.025em] leading-[1.1]">Une plateforme complète</h2>
+        <p class="text-[14.5px] leading-relaxed text-slatey mt-4">Des outils pensés pour créer, échanger et collaborer — dans un environnement fluide et sécurisé.</p>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
         ${[
@@ -441,7 +412,7 @@ const Home = () => `
           { n: '04', icon: 'video', t: 'Appels temps réel', pts: ['Voix et vidéo HD', "Partage d'écran", 'Chiffré de bout en bout'] },
         ].map((f, i) => `
           <article class="card-index reveal reveal-zoom" style="transition-delay:${i * 70}ms">
-            <div class="flex items-start justify-between mb-5">
+            <div class="flex items-start justify-between mb-6">
               <span class="icon-tile">${Icon(f.icon, 'w-[18px] h-[18px]')}</span>
               <span class="card-index__num">${f.n}</span>
             </div>
@@ -456,16 +427,16 @@ const Home = () => `
       </div>
     </section>
 
-    <!-- Valeurs : colonnes éditoriales -->
+    <!-- Valeurs : cartes à filet supérieur -->
     <section class="section-tint border-y border-navy-200">
       <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-20">
-        <div class="grid md:grid-cols-3 gap-10 lg:gap-14">
+        <div class="grid md:grid-cols-3 gap-8 lg:gap-10">
           ${[
             { icon: 'shield', t: 'Sécurité avant tout', d: 'Mots de passe chiffrés avec bcrypt, authentification JWT et données protégées à chaque étape.' },
             { icon: 'zap', t: 'Performance', d: 'Interface réactive, temps de chargement minimal et appels temps réel fluides et fiables.' },
             { icon: 'globe', t: 'Accessibilité', d: 'Design responsive sur desktop, tablette et mobile, accessible au plus grand nombre.' },
           ].map((v, i) => `
-            <div class="reveal card-top-rule pt-6" style="transition-delay:${i * 80}ms">
+            <div class="reveal card card-top-rule p-6" style="transition-delay:${i * 80}ms">
               <span class="icon-tile-accent mb-5">${Icon(v.icon, 'w-[18px] h-[18px]')}</span>
               <h3 class="font-semibold text-[16px] tracking-[-0.01em]">${v.t}</h3>
               <p class="text-[13.5px] leading-relaxed text-slatey mt-2.5">${v.d}</p>
@@ -475,8 +446,8 @@ const Home = () => `
     </section>
 
     <!-- CTA -->
-    <section class="max-w-7xl mx-auto px-6 lg:px-10 pb-4">
-      <div class="section-navy rounded-2xl border border-navy-900 px-6 py-16 lg:py-20 text-center relative overflow-hidden">
+    <section class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-24">
+      <div class="section-navy rounded-[28px] border border-navy-900 px-6 py-16 lg:py-20 text-center relative overflow-hidden">
         <div class="hero-grid absolute inset-0 pointer-events-none"></div>
         <div class="relative max-w-2xl mx-auto">
           <h2 class="display text-white text-[30px] lg:text-[40px]">Prêt à rejoindre la communauté ?</h2>
@@ -525,10 +496,10 @@ const FAQ = [
 
 const PageHead = ({ eyebrow, title, lead }) => `
   <section class="section-tint border-b border-navy-200">
-    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-14 lg:py-16">
-      <p class="eyebrow mb-3">${eyebrow}</p>
-      <h1 class="text-[34px] lg:text-[44px] font-semibold tracking-[-0.03em] leading-[1.08] max-w-[18ch]">${title}</h1>
-      ${lead ? `<p class="text-lead max-w-[62ch] mt-5">${lead}</p>` : ''}
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-20 text-center">
+      <p class="eyebrow mb-3 mx-auto w-fit">${eyebrow}</p>
+      <h1 class="text-[34px] lg:text-[46px] font-semibold tracking-[-0.03em] leading-[1.08] max-w-[20ch] mx-auto">${title}</h1>
+      ${lead ? `<p class="text-lead max-w-[62ch] mt-5 mx-auto">${lead}</p>` : ''}
     </div>
   </section>`;
 
@@ -557,21 +528,20 @@ const Features = () => `
     <section class="section-tint border-y border-navy-200">
       <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16 lg:py-20">
         <div class="text-center mb-12">
-          <p class="eyebrow-neutral mb-3">Sous le capot</p>
+          <p class="eyebrow-neutral mb-3 mx-auto w-fit">Sous le capot</p>
           <h2 class="text-[28px] lg:text-[34px] font-semibold tracking-[-0.025em]">Une architecture moderne et éprouvée</h2>
         </div>
-        <div>
+        <div class="grid sm:grid-cols-2 gap-5">
           ${STACK.map((s, i) => `
-            <div class="reveal grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] gap-5 items-center py-6 ${i > 0 ? 'border-t border-navy-200' : ''}" style="transition-delay:${i * 60}ms">
-              <span class="icon-tile-solid">${Icon(s.icon, 'w-[18px] h-[18px]')}</span>
-              <div class="min-w-0">
-                <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                  <h3 class="font-semibold text-[15px]">${s.n}</h3>
-                  ${s.tags.map(t => `<span class="text-[10.5px] font-semibold tracking-[.08em] uppercase text-ink500 bg-white border border-navy-200 rounded-full px-2.5 py-1">${t}</span>`).join('')}
-                </div>
-                <p class="text-[13px] text-slatey mt-1.5">${s.d}</p>
+            <div class="reveal card p-6" style="transition-delay:${i * 60}ms">
+              <span class="icon-tile-solid mb-4">${Icon(s.icon, 'w-[18px] h-[18px]')}</span>
+              <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                <h3 class="font-semibold text-[15px]">${s.n}</h3>
               </div>
-              ${Icon('arrowUpRight', 'w-4 h-4 text-ink300 hidden sm:block')}
+              <div class="flex flex-wrap gap-2 mt-2.5">
+                ${s.tags.map(t => `<span class="text-[10.5px] font-semibold tracking-[.08em] uppercase text-ink500 bg-white border border-navy-200 rounded-full px-2.5 py-1">${t}</span>`).join('')}
+              </div>
+              <p class="text-[13px] text-slatey mt-2.5">${s.d}</p>
             </div>`).join('')}
         </div>
       </div>
@@ -579,7 +549,7 @@ const Features = () => `
 
     <section class="max-w-4xl mx-auto px-6 lg:px-10 py-16 lg:py-20">
       <div class="text-center mb-12">
-        <p class="eyebrow-neutral mb-3">Questions fréquentes</p>
+        <p class="eyebrow-neutral mb-3 mx-auto w-fit">Questions fréquentes</p>
         <h2 class="text-[28px] lg:text-[34px] font-semibold tracking-[-0.025em]">Tout ce qu'il faut savoir</h2>
       </div>
       <div class="space-y-3">
@@ -596,7 +566,7 @@ const Features = () => `
 
     <section class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
       <div class="card p-10 lg:p-12 text-center flex flex-col items-center">
-        <p class="eyebrow mb-3">Prêt à commencer ?</p>
+        <p class="eyebrow mb-3 mx-auto w-fit">Prêt à commencer ?</p>
         <h2 class="text-[26px] lg:text-[32px] font-semibold tracking-[-0.025em] max-w-md">Toutes ces fonctionnalités, gratuitement.</h2>
         <button onclick="navigate('download')" class="btn btn-primary btn-lg mt-7">Télécharger LynoraLink ${Icon('arrowDown', 'w-4 h-4')}</button>
       </div>
@@ -646,12 +616,10 @@ const Pricing = () => `
 const Download = () => `
   <div class="page-enter">
     <section class="download-hero">
-      <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-20">
-        <div class="max-w-3xl">
-          <p class="pill pill-navy mb-6">Téléchargement</p>
-          <h1 class="display text-white text-[40px] sm:text-[52px] lg:text-[62px] max-w-[12ch]">LynoraLink, partout avec vous<span class="text-gold-400">.</span></h1>
-          <p class="text-[16px] lg:text-[17px] leading-relaxed text-white/65 max-w-[58ch] mt-6">Choisissez l'expérience qui correspond à votre usage : l'application Android pour rester proche de votre réseau, ou la version web pour accéder à LynoraLink depuis n'importe quel navigateur.</p>
-        </div>
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16 lg:py-20 text-center">
+        <p class="pill pill-navy mb-6 mx-auto w-fit">Téléchargement</p>
+        <h1 class="display text-white text-[38px] sm:text-[50px] lg:text-[60px] max-w-[14ch] mx-auto">LynoraLink, partout avec vous<span class="text-gold-400">.</span></h1>
+        <p class="text-[16px] lg:text-[17px] leading-relaxed text-white/65 max-w-[58ch] mt-6 mx-auto">Choisissez l'expérience qui correspond à votre usage : l'application Android pour rester proche de votre réseau, ou la version web pour accéder à LynoraLink depuis n'importe quel navigateur.</p>
       </div>
     </section>
     <section class="max-w-7xl mx-auto px-6 lg:px-10 py-14 lg:py-20">
@@ -781,7 +749,7 @@ const Legal = () => `
         <aside class="lg:col-span-3">
           <div class="card p-5 lg:sticky lg:top-24">
             <p class="eyebrow-neutral mb-4">Sur cette page</p>
-            <nav class="space-y-2 text-[13px] text-ink700" aria-label="Sommaire juridique">
+            <nav class="space-y-1 text-[13px] text-ink700" aria-label="Sommaire juridique">
               ${LEGAL_SECTIONS.map(section => `<a href="#legal-${section.id}" data-legal-link="legal-${section.id}" class="legal-toc-link block hover:text-ink transition-colors">${section.title}</a>`).join('')}
             </nav>
           </div>
@@ -820,52 +788,48 @@ const About = () => `
       lead: 'LynoraLink est né d\'une idée simple : créer un espace social où la technologie sert véritablement les liens humains.',
     })}
 
-    <section class="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-20">
-      <div class="grid lg:grid-cols-12 gap-12">
-        <div class="lg:col-span-3">
-          <p class="eyebrow-neutral lg:sticky lg:top-10">Le projet</p>
-        </div>
-        <div class="lg:col-span-9 max-w-[64ch]">
-          <h2 class="text-[26px] lg:text-[32px] font-semibold tracking-[-0.025em] leading-[1.15]">LynoraLink, en quelques mots</h2>
-          <div class="space-y-5 mt-6 text-[15px] leading-[1.75] text-ink700">
-            <p>
-              LynoraLink est un réseau social interactif moderne conçu pour réunir les meilleures
-              pratiques du Web social dans une plateforme cohérente et élégante. Le projet s'appuie
-              sur une architecture robuste : Next.js pour le rendu et le routage applicatif, associé
-              à TailwindCSS pour une interface réactive et accessible, une base de données PostgreSQL
-              hébergée sur Neon et gérée via l'ORM Prisma, et une couche temps réel basée sur WebRTC
-              et LiveKit pour les appels vocaux et vidéo. Une IA intégrée vient compléter cette base
-              en générant automatiquement des images et des articles directement dans l'application.
-            </p>
-            <p>
-              Au-delà de la technique, LynoraLink ambitionne de redonner du sens aux interactions
-              en ligne. Nous croyons qu'un réseau social doit être à la fois puissant et respectueux :
-              puissant par ses fonctionnalités — profils personnalisés, publications multimédia,
-              conversations threadées, appels haute définition — et respectueux par sa transparence,
-              sa sécurité et son souci de la vie privée de ses utilisateurs.
-            </p>
-          </div>
-          <figure class="mt-12 pl-6 border-l-2 border-gold-500">
-            <blockquote class="text-[19px] lg:text-[22px] leading-[1.5] font-medium tracking-[-0.01em] text-ink">
-              « Nous voulions construire un espace où la technologie s'efface devant les liens humains. »
-            </blockquote>
-            <figcaption class="mt-4 text-[13px] text-mist">L'équipe LynoraLink</figcaption>
-          </figure>
-        </div>
+    <section class="max-w-5xl mx-auto px-6 lg:px-10 py-16 lg:py-20">
+      <p class="eyebrow-neutral mb-4 mx-auto w-fit text-center">Le projet</p>
+      <h2 class="text-[26px] lg:text-[32px] font-semibold tracking-[-0.025em] leading-[1.15] text-center">LynoraLink, en quelques mots</h2>
+      <div class="space-y-5 mt-8 text-[15px] leading-[1.75] text-ink700 max-w-[68ch] mx-auto">
+        <p>
+          LynoraLink est un réseau social interactif moderne conçu pour réunir les meilleures
+          pratiques du Web social dans une plateforme cohérente et élégante. Le projet s'appuie
+          sur une architecture robuste : Next.js pour le rendu et le routage applicatif, associé
+          à TailwindCSS pour une interface réactive et accessible, une base de données PostgreSQL
+          hébergée sur Neon et gérée via l'ORM Prisma, et une couche temps réel basée sur WebRTC
+          et LiveKit pour les appels vocaux et vidéo. Une IA intégrée vient compléter cette base
+          en générant automatiquement des images et des articles directement dans l'application.
+        </p>
+        <p>
+          Au-delà de la technique, LynoraLink ambitionne de redonner du sens aux interactions
+          en ligne. Nous croyons qu'un réseau social doit être à la fois puissant et respectueux :
+          puissant par ses fonctionnalités — profils personnalisés, publications multimédia,
+          conversations threadées, appels haute définition — et respectueux par sa transparence,
+          sa sécurité et son souci de la vie privée de ses utilisateurs.
+        </p>
       </div>
+      <figure class="card mt-12 p-8 lg:p-10 max-w-[68ch] mx-auto text-center">
+        <blockquote class="text-[19px] lg:text-[22px] leading-[1.5] font-medium tracking-[-0.01em] text-ink">
+          « Nous voulions construire un espace où la technologie s'efface devant les liens humains. »
+        </blockquote>
+        <figcaption class="mt-4 text-[13px] text-mist">L'équipe LynoraLink</figcaption>
+      </figure>
     </section>
 
     <section class="section-tint border-y border-navy-200">
       <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-20">
-        <p class="eyebrow mb-3">Notre mission</p>
-        <h2 class="text-[28px] lg:text-[34px] font-semibold tracking-[-0.025em] mb-10">Des valeurs qui guident chaque décision</h2>
-        <div class="grid md:grid-cols-3 gap-10 lg:gap-14">
+        <div class="text-center mb-10">
+          <p class="eyebrow mb-3 mx-auto w-fit">Notre mission</p>
+          <h2 class="text-[28px] lg:text-[34px] font-semibold tracking-[-0.025em]">Des valeurs qui guident chaque décision</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8 lg:gap-10">
           ${[
             { icon: 'like', t: 'Bienveillance', d: 'Un environnement respectueux où chacun peut s\'exprimer librement et en sécurité.' },
             { icon: 'zap', t: 'Innovation', d: 'Des technologies de pointe au service d\'une expérience sociale toujours plus fluide.' },
             { icon: 'shield', t: 'Confiance', d: 'La transparence et la protection des données au cœur de nos engagements.' },
           ].map((v, i) => `
-            <div class="reveal card-top-rule pt-6" style="transition-delay:${i * 80}ms">
+            <div class="reveal card card-top-rule p-6" style="transition-delay:${i * 80}ms">
               <span class="icon-tile-accent mb-5">${Icon(v.icon, 'w-[18px] h-[18px]')}</span>
               <h3 class="font-semibold text-[16px]">${v.t}</h3>
               <p class="text-[13.5px] leading-relaxed text-slatey mt-2.5">${v.d}</p>
@@ -1135,7 +1099,7 @@ const render = () => {
     <div class="min-h-screen">
       ${Topbar()}
       ${MobileDrawer()}
-      <main class="pt-[86px]">${page()}</main>
+      <main class="pt-[92px]">${page()}</main>
       ${Footer()}
     </div>`;
   observeReveal();
@@ -1152,8 +1116,8 @@ const initHeaderScroll = () => {
   if (!header) return;
   const isHero = HERO_ROUTES.includes(state.route);
   const update = () => {
-    if (!isHero) { header.classList.add('topnav-v2--solid'); return; }
-    header.classList.toggle('topnav-v2--solid', window.scrollY > 28);
+    if (!isHero) { header.classList.add('nav-shell--solid'); return; }
+    header.classList.toggle('nav-shell--solid', window.scrollY > 28);
   };
   if (window.__headerScrollHandler) window.removeEventListener('scroll', window.__headerScrollHandler);
   window.__headerScrollHandler = update;
