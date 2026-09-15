@@ -65,7 +65,8 @@ const toast = (msg, type = 'success') => {
   const c = { success: 'bg-ink border-navy-700', error: 'bg-rose-800 border-rose-600', info: 'bg-ink border-navy-700' };
   const ic = { success: 'check', error: 'close', info: 'bell' };
   const el = document.createElement('div');
-  el.className = `fixed top-5 right-5 z-[100] ${c[type]} text-white text-[13.5px] font-medium px-4 py-3 rounded-[10px] border shadow-lift flex items-center gap-2.5 animate-page-in`;
+  el.className = `fixed top-5 right-5 z-[100] ${c[type]} text-white text-[13.5px] font-medium px-4 py-3 rounded-[10px] border shadow-lift flex items-center gap-2.5`;
+  el.style.animation = 'toastIn .38s cubic-bezier(.2,.8,.2,1) both';
   el.innerHTML = `${Icon(ic[type], 'w-4 h-4 text-gold-400')} <span>${msg}</span>`;
   document.body.appendChild(el);
   setTimeout(() => { el.style.transition = 'opacity .35s, transform .35s'; el.style.opacity = '0'; el.style.transform = 'translateY(-8px)'; setTimeout(() => el.remove(), 350); }, 3000);
@@ -264,7 +265,7 @@ const Home = () => `
           { n: '03', icon: 'message', t: 'Conversations', pts: ['Commentaires threadés', 'Likes et réactions', 'Notifications live'] },
           { n: '04', icon: 'video', t: 'Appels temps réel', pts: ['Voix et vidéo HD', "Partage d'écran", 'Chiffré de bout en bout'] },
         ].map((f, i) => `
-          <article class="card-index reveal" style="transition-delay:${i * 70}ms">
+          <article class="card-index reveal reveal-zoom" style="transition-delay:${i * 70}ms">
             <div class="flex items-start justify-between mb-5">
               <span class="icon-tile">${Icon(f.icon, 'w-[18px] h-[18px]')}</span>
               <span class="card-index__num">${f.n}</span>
@@ -327,14 +328,24 @@ const FEATURES = [
   { icon: 'search', t: 'Recherche et découverte', d: 'Trouvez facilement utilisateurs, publications et sujets.', pts: ['Recherche utilisateurs et posts', 'Tendances et suggestions', 'Filtres avancés', 'Historique de recherche'] },
   { icon: 'shield', t: 'Sécurité et confidentialité', d: 'Vos données sont protégées par les meilleures pratiques.', pts: ['Mots de passe chiffrés bcrypt', 'Authentification JWT', 'Double authentification', 'Export RGPD des données'] },
   { icon: 'users', t: 'Communautés', d: 'Créez des espaces pour vos équipes et vos passions.', pts: ['Groupes thématiques', 'Événements et rencontres', 'Rôles et permissions', 'Espaces publics ou privés'] },
+  { icon: 'zap', t: 'Génération de contenu par IA', d: 'Créez des visuels et des articles en quelques secondes, sans quitter l\'application.', pts: ['Génération d\'images à partir d\'un prompt', 'Rédaction d\'articles assistée', 'Suggestions adaptées à votre audience', 'Intégrée nativement au fil de publication'] },
+  { icon: 'mapPin', t: 'Pages entreprise & Premium', d: 'Donnez à votre marque une présence professionnelle dédiée.', pts: ['Page entreprise personnalisable', 'Offres d\'emploi et recrutement', 'Publicités sponsorisées', 'Mode Premium avec visibilité prioritaire'] },
 ];
 
 const STACK = [
-  { icon: 'code', n: 'Frontend', tags: ['React 18', 'TailwindCSS'], d: 'Interface réactive, composants réutilisables et routage SPA.' },
-  { icon: 'server', n: 'Backend', tags: ['Node.js', 'Express'], d: 'API REST modulaire, validation Zod et rate limiting.' },
-  { icon: 'database', n: 'Données', tags: ['PostgreSQL', 'Prisma'], d: 'Schéma relationnel, migrations et seed de démonstration.' },
+  { icon: 'code', n: 'Framework', tags: ['Next.js', 'TailwindCSS'], d: 'Rendu hybride, routage applicatif et interface réactive de bout en bout.' },
+  { icon: 'database', n: 'Données', tags: ['PostgreSQL · Neon', 'Prisma'], d: 'Base de données serverless, schéma relationnel typé et migrations versionnées.' },
   { icon: 'layers', n: 'Temps réel', tags: ['WebRTC', 'LiveKit'], d: 'Appels voix/vidéo HD, écran partagé et multi-participants.' },
-  { icon: 'lock', n: 'Sécurité', tags: ['JWT', 'bcrypt'], d: 'Sessions signées, hachage 12 rounds et en-têtes Helmet.' },
+  { icon: 'zap', n: 'Intelligence artificielle', tags: ['Génération de contenu'], d: 'Création automatique d\'images et d\'articles, intégrée nativement au fil de publication.' },
+  { icon: 'lock', n: 'Sécurité', tags: ['JWT', 'bcrypt'], d: 'Sessions signées, hachage 12 rounds et bonnes pratiques d\'en-têtes HTTP.' },
+];
+
+const FAQ = [
+  { q: 'LynoraLink est-il gratuit ?', a: 'Oui. L\'essentiel des fonctionnalités — messagerie, publications, groupes et appels — est accessible gratuitement. Le mode Premium Business ajoute des outils prioritaires pour les entreprises.' },
+  { q: 'Comment fonctionne la génération de contenu par IA ?', a: 'Depuis le fil de publication, vous décrivez ce que vous souhaitez créer et l\'IA génère une image ou un article prêt à publier. Le plan Essentiel inclut un quota quotidien, le Premium retire cette limite.' },
+  { q: 'Qui peut créer une page entreprise ?', a: 'Toute marque ou organisation peut créer une page entreprise gratuitement. Le mode Premium débloque la publication d\'offres d\'emploi et de publicités sponsorisées avec une visibilité prioritaire.' },
+  { q: 'Mes données sont-elles sécurisées ?', a: 'Les mots de passe sont hachés avec bcrypt, les sessions sont authentifiées par JWT et les appels vocaux/vidéo sont chiffrés de bout en bout via WebRTC.' },
+  { q: 'L\'application est-elle disponible sur mobile ?', a: 'Oui, une application Android est disponible au téléchargement, en complément de la version web accessible depuis n\'importe quel navigateur.' },
 ];
 
 const PageHead = ({ eyebrow, title, lead }) => `
@@ -388,6 +399,23 @@ const Features = () => `
               ${Icon('arrowUpRight', 'w-4 h-4 text-ink300 hidden sm:block')}
             </div>`).join('')}
         </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-6 lg:px-10 py-16 lg:py-20">
+      <div class="text-center mb-12">
+        <p class="eyebrow-neutral mb-3">Questions fréquentes</p>
+        <h2 class="text-[28px] lg:text-[34px] font-semibold tracking-[-0.025em]">Tout ce qu'il faut savoir</h2>
+      </div>
+      <div class="space-y-3">
+        ${FAQ.map((f, i) => `
+          <details class="faq-item reveal" style="transition-delay:${i * 50}ms">
+            <summary class="faq-item__q">
+              <span>${f.q}</span>
+              ${Icon('chevronDown', 'w-[18px] h-[18px] faq-item__chevron shrink-0')}
+            </summary>
+            <p class="faq-item__a">${f.a}</p>
+          </details>`).join('')}
       </div>
     </section>
 
@@ -628,10 +656,11 @@ const About = () => `
             <p>
               LynoraLink est un réseau social interactif moderne conçu pour réunir les meilleures
               pratiques du Web social dans une plateforme cohérente et élégante. Le projet s'appuie
-              sur une architecture robuste : un frontend React associé à TailwindCSS pour une
-              interface réactive et accessible, un backend Node.js/Express exposant une API REST,
-              une base de données PostgreSQL gérée via l'ORM Prisma, et une couche temps réel basée
-              sur WebRTC et LiveKit pour les appels vocaux et vidéo.
+              sur une architecture robuste : Next.js pour le rendu et le routage applicatif, associé
+              à TailwindCSS pour une interface réactive et accessible, une base de données PostgreSQL
+              hébergée sur Neon et gérée via l'ORM Prisma, et une couche temps réel basée sur WebRTC
+              et LiveKit pour les appels vocaux et vidéo. Une IA intégrée vient compléter cette base
+              en générant automatiquement des images et des articles directement dans l'application.
             </p>
             <p>
               Au-delà de la technique, LynoraLink ambitionne de redonner du sens aux interactions
