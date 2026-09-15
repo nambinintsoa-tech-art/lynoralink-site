@@ -77,7 +77,10 @@ const state = {
   route: location.hash.slice(1) || 'home',
   sidebarOpen: false,
   user: null,
+  showcaseIndex: 0,
 };
+let showcaseTimer = null;
+const SHOWCASE_MS = 5000;
 
 const navigate = (r) => { location.hash = r; state.sidebarOpen = false; window.scrollTo({ top: 0, behavior: 'instant' }); render(); };
 const toggleSidebar = () => { state.sidebarOpen = !state.sidebarOpen; render(); };
@@ -118,74 +121,241 @@ const Sidebar = () => `
     </div>
   </aside>`;
 
+const HERO_ROUTES = ['home', 'download'];
+
 const Topbar = () => `
-  <header class="topnav ${state.sidebarOpen ? 'topnav--open' : ''} fixed top-0 inset-x-0 z-50">
-    <div class="topnav__inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center gap-5">
-      <button onclick="navigate('home')" class="topnav-brand flex items-center gap-2.5 shrink-0" aria-label="Accueil LynoraLink">
-        ${Logo(34)}
-        <span class="font-semibold text-[15px] tracking-[-0.01em]"><span class="text-gold-500">Lynora</span><span class="text-navy-950">Link</span></span>
-      </button>
-      <button onclick="toggleSidebar()" class="topnav-menu" aria-label="Ouvrir le menu" aria-expanded="${state.sidebarOpen}">
-        ${Icon(state.sidebarOpen ? 'x' : 'menu', 'w-5 h-5')}
-      </button>
-      <nav class="topnav-links flex items-center gap-1 overflow-x-auto min-w-0 ml-auto" aria-label="Navigation principale">
-        ${NAV.map(n => `
-          <button onclick="navigate('${n.id}')" class="topnav-link ${state.route === n.id ? 'active' : ''}" aria-current="${state.route === n.id ? 'page' : 'false'}">
-            ${n.label}
-          </button>`).join('')}
-        <button onclick="navigate('download')" class="topnav-cta btn btn-accent btn-sm shrink-0">Télécharger ${Icon('arrowDown', 'w-3.5 h-3.5')}</button>
-      </nav>
+  <header id="siteHeader" class="topnav-v2 fixed top-0 inset-x-0 z-50 px-3 sm:px-5 ${HERO_ROUTES.includes(state.route) ? '' : 'topnav-v2--solid'}">
+    <div class="topnav-v2__bar max-w-7xl mx-auto">
+      <div class="topnav-v2__inner flex items-center gap-4 px-4 sm:px-5">
+        <button onclick="navigate('home')" class="flex items-center gap-2.5 shrink-0" aria-label="Accueil LynoraLink">
+          ${Logo(30)}
+          <span class="topnav-v2__brand-text font-semibold text-[14.5px] tracking-[-0.01em] text-white"><b class="text-gold-400">Lynora</b>Link</span>
+        </button>
+
+        <nav class="nav-pill-group hidden lg:inline-flex ml-2" aria-label="Navigation principale">
+          ${NAV.map(n => `
+            <button onclick="navigate('${n.id}')" class="nav-pill-link ${state.route === n.id ? 'active' : ''}" aria-current="${state.route === n.id ? 'page' : 'false'}">${n.label}</button>`).join('')}
+        </nav>
+
+        <button onclick="navigate('download')" class="topnav-v2__cta hidden lg:inline-flex btn btn-accent btn-sm ml-auto shrink-0">Télécharger ${Icon('arrowDown', 'w-3.5 h-3.5')}</button>
+
+        <button onclick="toggleSidebar()" class="topnav-v2__menu-btn ml-auto lg:hidden" aria-label="Ouvrir le menu" aria-expanded="${state.sidebarOpen}">
+          ${Icon('menu', 'w-5 h-5')}
+        </button>
+      </div>
     </div>
   </header>`;
 
+const MobileDrawer = () => `
+  <div class="mobile-drawer ${state.sidebarOpen ? 'open' : ''}" aria-hidden="${!state.sidebarOpen}">
+    <div class="mobile-drawer__overlay" onclick="toggleSidebar()"></div>
+    <div class="mobile-drawer__panel">
+      <div class="flex items-center justify-between mb-6">
+        <span class="flex items-center gap-2.5">${Logo(28)}<span class="font-semibold text-[14px] text-white"><span class="text-gold-400">Lynora</span>Link</span></span>
+        <button onclick="toggleSidebar()" class="topnav-v2__menu-btn" aria-label="Fermer le menu">${Icon('x', 'w-5 h-5')}</button>
+      </div>
+      <nav class="space-y-1 flex-1">
+        ${NAV.map(n => `
+          <button onclick="navigate('${n.id}')" class="mobile-drawer__link w-full ${state.route === n.id ? 'active' : ''}">
+            ${Icon(n.icon, 'w-[17px] h-[17px]')}<span>${n.label}</span>
+          </button>`).join('')}
+      </nav>
+      <button onclick="navigate('download')" class="btn btn-accent w-full btn-sm mt-4">Télécharger l&#39;application ${Icon('arrowDown', 'w-4 h-4')}</button>
+    </div>
+  </div>`;
+
 const Footer = () => `
-  <footer class="bg-navy-50 border-t border-navy-200 mt-20">
+  <footer class="footer-v2">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-16">
+      <div class="footer-v2__cta">
+        <div>
+          <p class="eyebrow mb-2">Restez informé</p>
+          <h3 class="text-white text-[20px] lg:text-[24px] font-semibold tracking-[-0.02em] max-w-sm">Suivez l'évolution de LynoraLink avant son lancement public.</h3>
+        </div>
+        <form onsubmit="subscribe(event)" class="flex flex-wrap gap-2.5 mt-6 lg:mt-0 lg:shrink-0 lg:w-[360px]">
+          <input type="email" required placeholder="votre@email.com" class="footer-v2__input flex-1 min-w-[180px]" />
+          <button class="btn btn-accent btn-sm shrink-0">S'inscrire</button>
+        </form>
+      </div>
+    </div>
+
     <div class="max-w-7xl mx-auto px-6 lg:px-10 py-14">
       <div class="footer-grid grid md:grid-cols-12 gap-10">
         <div class="md:col-span-5">
           <div class="flex items-center gap-3 mb-4">
             ${Logo(34)}
             <div>
-              <p class="font-semibold text-[15px] tracking-[-0.01em]"><span class="text-gold-500">Lynora</span><span class="text-navy-950">Link</span></p>
-              <p class="eyebrow" style="margin-top:2px">Connectez en toute sécurité</p>
+              <p class="font-semibold text-[15px] tracking-[-0.01em] text-white">Lynora<span class="text-gold-400">Link</span></p>
+              <p class="footer-v2__status mt-1"><span class="footer-v2__status-dot dot-pulse"></span>Vitrine active — lancement en préparation</p>
             </div>
           </div>
-          <p class="text-[13.5px] leading-relaxed max-w-sm text-slatey">
+          <p class="text-[13.5px] leading-relaxed max-w-sm">
             Réseau social interactif moderne réunissant profils, publications,
             conversations temps réel et appels vidéo HD dans une expérience fluide et sécurisée.
           </p>
+          <div class="flex items-center gap-2.5 mt-6">
+            <a href="mailto:contact@lynoralink.com" class="footer-v2__social" aria-label="Email">${Icon('mail', 'w-[17px] h-[17px]')}</a>
+            <a href="https://app.lynoralink.com" target="_blank" rel="noopener noreferrer" class="footer-v2__social" aria-label="Version web">${Icon('globe', 'w-[17px] h-[17px]')}</a>
+            <a href="public/LynoraLink.v1.0.apk" download class="footer-v2__social" aria-label="Télécharger l'APK">${Icon('android', 'w-[17px] h-[17px]')}</a>
+          </div>
         </div>
         <div class="md:col-span-3">
-          <p class="eyebrow-neutral mb-3.5">Plateforme</p>
-          <ul class="space-y-2.5 text-[13.5px] text-ink700">
-            ${NAV.map(n => `<li><button onclick="navigate('${n.id}')" class="hover:text-ink transition-colors">${n.label}</button></li>`).join('')}
+          <p class="footer-v2__col-title mb-3.5">Plateforme</p>
+          <ul class="space-y-2.5 text-[13.5px]">
+            ${NAV.map(n => `<li><button onclick="navigate('${n.id}')" class="footer-v2__link">${n.label}</button></li>`).join('')}
           </ul>
         </div>
         <div class="md:col-span-2">
-          <p class="eyebrow-neutral mb-3.5">Légal</p>
-          <ul class="space-y-2.5 text-[13.5px] text-ink700">
-            <li><button onclick="navigate('legal')" class="hover:text-ink transition-colors">Conditions</button></li>
-            <li><button onclick="navigate('legal')" class="hover:text-ink transition-colors">Confidentialité</button></li>
-            <li><button onclick="navigate('legal')" class="hover:text-ink transition-colors">Cookies</button></li>
+          <p class="footer-v2__col-title mb-3.5">Légal</p>
+          <ul class="space-y-2.5 text-[13.5px]">
+            <li><button onclick="navigate('legal')" class="footer-v2__link">Conditions</button></li>
+            <li><button onclick="navigate('legal')" class="footer-v2__link">Confidentialité</button></li>
+            <li><button onclick="navigate('legal')" class="footer-v2__link">Cookies</button></li>
           </ul>
         </div>
         <div class="md:col-span-2">
-          <p class="eyebrow-neutral mb-3.5">Contactez-nous</p>
-          <a href="mailto:contact@lynoralink.com" class="footer-contact flex items-start gap-2.5 text-[13px] text-ink700 hover:text-ink transition-colors">
-            <span class="footer-contact__icon">${Icon('mail', 'w-4 h-4')}</span>
+          <p class="footer-v2__col-title mb-3.5">Contact</p>
+          <a href="mailto:contact@lynoralink.com" class="footer-v2__link flex items-start gap-2 text-[13px]">
             <span class="break-all">contact@lynoralink.com</span>
           </a>
-          <p class="text-[11.5px] leading-relaxed text-mist mt-3">Une question sur LynoraLink ? Écrivez-nous.</p>
+          <p class="text-[11.5px] leading-relaxed mt-3 opacity-60">Une question sur LynoraLink ? Écrivez-nous.</p>
         </div>
       </div>
     </div>
-    <div class="border-t border-navy-200">
-      <div class="max-w-7xl mx-auto px-6 lg:px-10 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[12px] text-ink500">
+    <div class="border-t border-white/10 relative">
+      <div class="max-w-7xl mx-auto px-6 lg:px-10 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] opacity-55">
         <p>© 2026 LynoraLink. Tous droits réservés.</p>
         <p>Conçu à Madagascar.</p>
       </div>
+      <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="back-to-top absolute right-6 lg:right-10 -top-5" aria-label="Retour en haut">${Icon('arrowUpRight', 'w-4 h-4 -rotate-45')}</button>
     </div>
   </footer>`;
+
+/* ===================== SHOWCASE (carousel) ===================== */
+
+const ShowcaseMock = {
+  feed: () => `
+    <div class="bg-white rounded-xl p-4 shadow-lift">
+      <div class="flex items-center gap-2.5">
+        <span class="icon-tile-solid w-8 h-8 !rounded-full">${Icon('user', 'w-3.5 h-3.5')}</span>
+        <div class="flex-1 min-w-0"><p class="text-[12.5px] font-semibold text-ink leading-tight">Mia R.</p><p class="text-[10.5px] text-mist">à l'instant</p></div>
+        ${Icon('mapPin', 'w-3.5 h-3.5 text-ink300')}
+      </div>
+      <p class="text-[13px] text-ink700 mt-3 leading-relaxed">Nouvelle publication avec la communauté ✨</p>
+      <div class="rounded-lg bg-navy-100 h-24 mt-3"></div>
+      <div class="flex items-center gap-4 mt-3 pt-3 border-t border-navy-200 text-[11.5px] text-ink500">
+        <span class="flex items-center gap-1.5">${Icon('like', 'w-3.5 h-3.5')}128</span>
+        <span class="flex items-center gap-1.5">${Icon('message', 'w-3.5 h-3.5')}24</span>
+        <span class="flex items-center gap-1.5 ml-auto">${Icon('send', 'w-3.5 h-3.5')}</span>
+      </div>
+    </div>`,
+  chat: () => `
+    <div class="bg-white rounded-xl p-4 shadow-lift">
+      <div class="flex items-center gap-2.5 pb-3 border-b border-navy-200">
+        <span class="icon-tile-solid w-8 h-8 !rounded-full">${Icon('users', 'w-3.5 h-3.5')}</span>
+        <p class="text-[12.5px] font-semibold text-ink">Équipe Design</p>
+        <span class="w-2 h-2 rounded-full bg-emerald-400 ml-auto"></span>
+      </div>
+      <div class="space-y-2 mt-3">
+        <p class="bg-navy-100 text-ink700 text-[12px] rounded-lg rounded-bl-none px-3 py-2 w-[76%]">On lance l'appel dans 5 min ?</p>
+        <p class="bg-navy-950 text-white text-[12px] rounded-lg rounded-br-none px-3 py-2 w-[68%] ml-auto">Parfait, j'arrive 🎥</p>
+      </div>
+      <div class="flex items-center gap-2 mt-3 pt-3 border-t border-navy-200">
+        ${Icon('phone', 'w-4 h-4 text-ink500')}${Icon('video', 'w-4 h-4 text-ink500')}
+        <span class="text-[11px] text-mist ml-auto">HD · chiffré</span>
+      </div>
+    </div>`,
+  ai: () => `
+    <div class="bg-white rounded-xl p-4 shadow-lift">
+      <div class="flex items-center gap-2 text-[11.5px] font-semibold text-ink700">${Icon('zap', 'w-4 h-4 text-gold-600')}Assistant IA</div>
+      <div class="rounded-lg border border-navy-200 bg-navy-50 text-[12px] text-ink500 px-3 py-2 mt-3">« Génère une image pour mon prochain post… »</div>
+      <div class="rounded-lg bg-gradient-to-br from-gold-100 to-navy-100 h-20 mt-3 flex items-center justify-center text-gold-700">${Icon('image', 'w-6 h-6')}</div>
+      <div class="flex items-center gap-2 mt-3 pt-3 border-t border-navy-200 text-[11px] text-ink500">
+        ${Icon('check', 'w-3.5 h-3.5 text-gold-600')} Image générée · prête à publier
+      </div>
+    </div>`,
+  business: () => `
+    <div class="bg-white rounded-xl p-4 shadow-lift">
+      <div class="flex items-center gap-2.5">
+        <span class="icon-tile-solid w-8 h-8 !rounded-[9px]">${Icon('mapPin', 'w-3.5 h-3.5')}</span>
+        <div class="flex-1 min-w-0"><p class="text-[12.5px] font-semibold text-ink leading-tight">Atelier Nova</p><p class="text-[10.5px] text-mist">Page entreprise</p></div>
+        <span class="pill pill-accent !text-[9px] !py-1">Premium</span>
+      </div>
+      <div class="rounded-lg border border-navy-200 px-3 py-2 mt-3 flex items-center gap-2 text-[11.5px] text-ink700">${Icon('users', 'w-3.5 h-3.5')}Recrute : Designer produit</div>
+      <div class="rounded-lg border border-navy-200 px-3 py-2 mt-2 flex items-center gap-2 text-[11.5px] text-ink700">${Icon('zap', 'w-3.5 h-3.5')}Publicité sponsorisée active</div>
+    </div>`,
+  group: () => `
+    <div class="bg-white rounded-xl p-4 shadow-lift">
+      <div class="flex items-center gap-2.5">
+        <span class="icon-tile-solid w-8 h-8 !rounded-[9px]">${Icon('users', 'w-3.5 h-3.5')}</span>
+        <div class="flex-1 min-w-0"><p class="text-[12.5px] font-semibold text-ink leading-tight">Créateurs Madagascar</p><p class="text-[10.5px] text-mist">1 240 membres</p></div>
+      </div>
+      <div class="flex -space-x-2 mt-3">
+        ${['avatar-1', 'avatar-2', 'avatar-3', 'avatar-4'].map(c => `<span class="avatar avatar-ring ${c} w-7 h-7 text-[10px]">•</span>`).join('')}
+      </div>
+      <div class="mt-3 pt-3 border-t border-navy-200 text-[11.5px] text-ink500">Groupe public · discussions actives</div>
+    </div>`,
+};
+
+const SHOWCASE = [
+  { eyebrow: 'Fil d\'actualité', title: 'Publiez, réagissez, partagez.', desc: 'Un fil social riche : texte, image, vidéo — avec likes, commentaires et partages en temps réel.', mock: 'feed' },
+  { eyebrow: 'Messagerie & appels', title: 'Vos conversations, en direct.', desc: 'Messagerie instantanée et appels vocaux/vidéo HD chiffrés de bout en bout, pour vos échanges 1-à-1 ou de groupe.', mock: 'chat' },
+  { eyebrow: 'Assistant IA', title: 'Créez du contenu en un prompt.', desc: 'Générez images et articles directement depuis le fil de publication grâce à l\'IA intégrée.', mock: 'ai' },
+  { eyebrow: 'Pages entreprise', title: 'Une vitrine pro, intégrée.', desc: 'Recrutement, publicités sponsorisées et visibilité prioritaire pour les marques en mode Premium.', mock: 'business' },
+  { eyebrow: 'Communautés', title: 'Retrouvez vos passions.', desc: 'Créez ou rejoignez des groupes thématiques, publics ou privés, avec rôles et permissions.', mock: 'group' },
+];
+
+const Showcase = () => `
+  <div id="showcase" class="showcase reveal">
+    <div class="showcase__track" id="showcaseTrack">
+      ${SHOWCASE.map(s => `
+        <div class="showcase__slide">
+          <div>
+            <p class="showcase__eyebrow eyebrow !text-gold-400">${s.eyebrow}</p>
+            <h3 class="text-white text-[24px] lg:text-[30px] font-semibold tracking-[-0.02em] leading-[1.15] mt-2 max-w-[16ch]">${s.title}</h3>
+            <p class="text-[14px] leading-relaxed text-white/60 mt-3 max-w-[46ch]">${s.desc}</p>
+          </div>
+          <div class="showcase__mock max-w-[300px] mx-auto lg:mx-0 lg:justify-self-end w-full">${ShowcaseMock[s.mock]()}</div>
+        </div>`).join('')}
+    </div>
+    <div class="showcase__progress"><div class="showcase__progress-bar" id="showcaseProgress"></div></div>
+    <div class="showcase__controls">
+      <div class="showcase__dots" role="tablist" aria-label="Diapositives">
+        ${SHOWCASE.map((_, i) => `<button class="showcase__dot ${i === 0 ? 'active' : ''}" onclick="showcaseGoto(${i})" aria-label="Diapositive ${i + 1}"></button>`).join('')}
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="showcase__arrow" onclick="showcasePrev()" aria-label="Précédent">${Icon('arrowRight', 'w-4 h-4 rotate-180')}</button>
+        <button class="showcase__arrow" onclick="showcaseNext()" aria-label="Suivant">${Icon('arrowRight', 'w-4 h-4')}</button>
+      </div>
+    </div>
+  </div>`;
+
+const updateShowcaseUI = () => {
+  const track = document.getElementById('showcaseTrack');
+  if (!track) return;
+  track.style.transform = `translateX(-${state.showcaseIndex * 100}%)`;
+  $$('.showcase__dot').forEach((d, i) => d.classList.toggle('active', i === state.showcaseIndex));
+  const bar = document.getElementById('showcaseProgress');
+  if (bar) {
+    bar.classList.remove('running');
+    void bar.offsetWidth;
+    bar.style.transitionDuration = `${SHOWCASE_MS}ms`;
+    bar.classList.add('running');
+  }
+};
+const showcaseGoto = (i) => { state.showcaseIndex = (i + SHOWCASE.length) % SHOWCASE.length; updateShowcaseUI(); restartShowcaseTimer(); };
+const showcaseNext = () => showcaseGoto(state.showcaseIndex + 1);
+const showcasePrev = () => showcaseGoto(state.showcaseIndex - 1);
+const restartShowcaseTimer = () => { clearInterval(showcaseTimer); showcaseTimer = setInterval(showcaseNext, SHOWCASE_MS); };
+const initShowcase = () => {
+  const el = document.getElementById('showcase');
+  if (!el) { clearInterval(showcaseTimer); return; }
+  state.showcaseIndex = 0;
+  updateShowcaseUI();
+  restartShowcaseTimer();
+  el.addEventListener('mouseenter', () => clearInterval(showcaseTimer));
+  el.addEventListener('mouseleave', restartShowcaseTimer);
+};
 
 /* ===================== HOME ===================== */
 
@@ -245,6 +415,11 @@ const Home = () => `
 
         </div>
       </div>
+    </section>
+
+    <!-- Showcase : carousel auto-défilant -->
+    <section class="max-w-7xl mx-auto px-6 lg:px-10 -mt-8 lg:-mt-12 relative z-10">
+      ${Showcase()}
     </section>
 
     <!-- Plateforme : cartes numérotées -->
@@ -959,14 +1134,31 @@ const render = () => {
   document.getElementById('app').innerHTML = `
     <div class="min-h-screen">
       ${Topbar()}
-      <main class="pt-16">${page()}</main>
+      ${MobileDrawer()}
+      <main class="pt-[86px]">${page()}</main>
       ${Footer()}
     </div>`;
   observeReveal();
+  initHeaderScroll();
+  initShowcase();
   if (state.route === 'legal') observeLegalNavigation();
   if (hashRoute.startsWith('legal-')) {
     document.getElementById(hashRoute)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+};
+
+const initHeaderScroll = () => {
+  const header = document.getElementById('siteHeader');
+  if (!header) return;
+  const isHero = HERO_ROUTES.includes(state.route);
+  const update = () => {
+    if (!isHero) { header.classList.add('topnav-v2--solid'); return; }
+    header.classList.toggle('topnav-v2--solid', window.scrollY > 28);
+  };
+  if (window.__headerScrollHandler) window.removeEventListener('scroll', window.__headerScrollHandler);
+  window.__headerScrollHandler = update;
+  window.addEventListener('scroll', update, { passive: true });
+  update();
 };
 
 const observeReveal = () => {
@@ -1012,6 +1204,7 @@ window.navigate = navigate; window.toggleSidebar = toggleSidebar; window.logout 
 window.sendContact = sendContact; window.subscribe = subscribe;
 window.doLogin = doLogin; window.doRegister = doRegister;
 window.togglePass = togglePass; window.checkStrength = checkStrength; window.toast = toast;
+window.showcaseGoto = showcaseGoto; window.showcaseNext = showcaseNext; window.showcasePrev = showcasePrev;
 
 document.addEventListener('DOMContentLoaded', render);
 render();
