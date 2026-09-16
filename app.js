@@ -165,7 +165,7 @@ const Footer = () => `
           </p>
           <div class="flex items-center gap-2.5 mt-6">
             <a href="https://app.lynoralink.com" target="_blank" rel="noopener noreferrer" class="footer-v2__social" aria-label="Version web">${Icon('globe', 'w-[17px] h-[17px]')}</a>
-            <a href="public/LynoraLink.v1.1.apk" download class="footer-v2__social" aria-label="Télécharger l'APK">${Icon('android', 'w-[17px] h-[17px]')}</a>
+            <a href="public/LynoraLink.v1.1.1.apk" download class="footer-v2__social" aria-label="Télécharger l'APK">${Icon('android', 'w-[17px] h-[17px]')}</a>
           </div>
         </div>
         <div class="md:col-span-3">
@@ -636,7 +636,7 @@ const Download = () => `
               <li>${Icon('check', 'w-4 h-4')} Appels vocaux et vidéo</li>
             </ul>
             <div class="mt-auto pt-8 flex items-center justify-between gap-4 flex-wrap">
-              <a href="public/LynoraLink.v1.1.apk" download class="btn btn-accent btn-lg">Télécharger l'APK ${Icon('arrowDown', 'w-4 h-4')}</a>
+              <a href="public/LynoraLink.v1.1.1.apk" download class="btn btn-accent btn-lg">Télécharger l'APK ${Icon('arrowDown', 'w-4 h-4')}</a>
               <span class="text-[11.5px] text-mist">Fichier Android</span>
             </div>
           </div>
