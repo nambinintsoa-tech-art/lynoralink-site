@@ -249,68 +249,6 @@ input, textarea, select { max-width: 100%; }
 /* =====================================================================
    HERO — mise en scène centrée + carte flottante
    ===================================================================== */
-.buy-sell-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 280px;
-  padding: 12px 14px 10px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, rgba(16,26,51,.92), rgba(35,49,79,.96));
-  border: 1px solid rgba(176,141,63,.52);
-  box-shadow: 0 18px 42px -20px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.06);
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-}
-.buy-sell-badge:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 20px 48px -18px rgba(176,141,63,.35), inset 0 1px 0 rgba(255,255,255,.08);
-  border-color: rgba(176,141,63,.78);
-}
-.buy-sell-badge__meta {
-  display: block;
-  font-size: 9px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.62);
-  text-align: center;
-  margin-bottom: 8px;
-}
-.buy-sell-badge__content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: rgba(255,255,255,.03);
-  border: 1px solid rgba(255,255,255,.06);
-}
-.buy-sell-badge__brand {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  color: #fff;
-}
-.buy-sell-badge__brand span {
-  color: var(--brass);
-}
-.buy-sell-badge__label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 82px;
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(176,141,63,.24), rgba(176,141,63,.14));
-  border: 1px solid rgba(176,141,63,.5);
-  color: #f7e7ba;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-
 .hero-bg {
   position: relative;
   background:

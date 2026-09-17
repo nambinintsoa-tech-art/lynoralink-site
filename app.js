@@ -347,12 +347,8 @@ const Home = () => `
           <button onclick="navigate('features')" class="btn btn-dark btn-lg">Découvrir les fonctionnalités</button>
         </div>
         <div class="mt-8 flex justify-center">
-          <a href="https://buysellstartups.com/listings/lynoralink-mu5uh7yt" target="_blank" rel="noopener" class="buy-sell-badge" aria-label="Voir LynoraLink sur Buy Sell Startups">
-            <span class="buy-sell-badge__meta">Buy Sell Startups · Marketplace</span>
-            <span class="buy-sell-badge__content">
-              <span class="buy-sell-badge__brand">Lynora<span>Link</span></span>
-              <span class="buy-sell-badge__label">For Sale</span>
-            </span>
+          <a href="https://buysellstartups.com/listings/lynoralink-mu5uh7yt" target="_blank" rel="noopener noreferrer">
+            <img src="https://buysellstartups.com/api/badge/lynoralink-mu5uh7yt?style=dark" alt="For sale on BuySellStartups" width="280" height="68"/>
           </a>
         </div>
       </div>
