@@ -346,6 +346,15 @@ const Home = () => `
           <button onclick="navigate('download')" class="btn btn-accent btn-lg">Télécharger l&#39;application ${Icon('arrowDown', 'w-4 h-4')}</button>
           <button onclick="navigate('features')" class="btn btn-dark btn-lg">Découvrir les fonctionnalités</button>
         </div>
+        <div class="mt-8 flex justify-center">
+          <a href="https://buysellstartups.com/listings/lynoralink-mu5uh7yt" target="_blank" rel="noopener" class="buy-sell-badge" aria-label="Voir LynoraLink sur Buy Sell Startups">
+            <span class="buy-sell-badge__meta">Buy Sell Startups · Marketplace</span>
+            <span class="buy-sell-badge__content">
+              <span class="buy-sell-badge__brand">Lynora<span>Link</span></span>
+              <span class="buy-sell-badge__label">For Sale</span>
+            </span>
+          </a>
+        </div>
       </div>
 
       <div class="relative max-w-4xl mx-auto px-6 lg:px-10 pb-16 lg:pb-20">
