@@ -9,55 +9,56 @@ const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const Logo = (size = 34) =>
   `<img src="assets/logo.png" alt="LynoraLink" style="width:${size}px;height:${size}px;object-fit:contain" />`;
 
-/* ---------- Bibliothèque d'icônes (trait fin 1.6) ---------- */
-const Icon = (name, cls = 'w-5 h-5') => {
-  const I = {
-    home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>',
-    grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
-    info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
-    mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
-    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
-    users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M17.5 14.5a6.5 6.5 0 0 1 4 5.5"/>',
-    post: '<path d="M12 20H9a4 4 0 0 1-4-4V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a4 4 0 0 1-4 4z"/><path d="M12 20V10M8 6h8"/>',
-    message: '<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
-    like: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>',
-    video: '<rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 11 6-3.5v9L16 13"/>',
-    phone: '<path d="M22 16.9v2a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 1h2a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.4 2.1L7.1 8.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
-    android: '<path d="M8 8.5h8a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-6.5a2 2 0 0 1 2-2z"/><path d="M6 12H4v4M18 12h2v4M9 19v2M15 19v2M8 8.5 6.5 6M16 8.5 17.5 6M9.5 11.5h.01M14.5 11.5h.01"/>',
-    bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
-    search: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
-    shield: '<path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
-    zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>',
-    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>',
-    check: '<path d="m4 12 5 5L20 6"/>',
-    close: '<path d="M6 6l12 12M18 6 6 18"/>',
-    arrowRight: '<path d="M4 12h16m-6-6 6 6-6 6"/>',
-    arrowDown: '<path d="M12 3v14m-6-6 6 6 6-6M5 21h14"/>',
-    arrowUpRight: '<path d="M7 17 17 7M8 7h9v9"/>',
-    lock: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
-    eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
-    eyeOff: '<path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.2 4.2M9.4 5.3A10.9 10.9 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4M6.1 6.6A17.3 17.3 0 0 0 2 12s3.5 7 10 7c1.1 0 2.1-.2 3-.5"/>',
-    send: '<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>',
-    mapPin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
-    star: '<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/>',
-    chevronDown: '<path d="m6 9 6 6 6-6"/>',
-    calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/>',
-    camera: '<path d="M4 7h3l2-3h6l2 3h3a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="4"/>',
-    image: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>',
-    settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.7l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.7-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.7.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.7 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.7.3h.1a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5h.1a1.6 1.6 0 0 0 1.7-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.7v.1a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>',
-    logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/>',
-    google: '<path d="M21.3 12.2a10 10 0 0 0-.1-1.6H12v3.9h5.2a4.5 4.5 0 0 1-1.9 2.9v2.4h3.1a8.6 8.6 0 0 0 2.9-7.6z" fill="currentColor" stroke="none"/><path d="M12 22a8.6 8.6 0 0 0 6-2.2l-3.1-2.4a5.4 5.4 0 0 1-8-2.8H3.7v2.5A10 10 0 0 0 12 22z" fill="currentColor" stroke="none" opacity=".7"/><path d="M6.9 14.6a5.4 5.4 0 0 1 0-3.4V8.7H3.7a10 10 0 0 0 0 6.4z" fill="currentColor" stroke="none" opacity=".5"/><path d="M12 5.8a5.4 5.4 0 0 1 3.8 1.5l2.8-2.8A9.6 9.6 0 0 0 3.7 8.7l3.2 2.5A5.4 5.4 0 0 1 12 5.8z" fill="currentColor" stroke="none" opacity=".85"/>',
-    code: '<path d="m8 6-6 6 6 6M16 6l6 6-6 6"/>',
-    database: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
-    server: '<rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01"/>',
-    layers: '<path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
-    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
-    x: '<path d="M6 6l12 12M18 6 6 18"/>',
-    at: '<circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.9 7.9"/>',
-    hash: '<path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/>',
-    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+/* ---------- Icônes Font Awesome ---------- */
+const Icon = (name, cls = 'text-base') => {
+  const map = {
+    home: 'fa-solid fa-house',
+    grid: 'fa-solid fa-grid-2',
+    info: 'fa-solid fa-circle-info',
+    mail: 'fa-solid fa-envelope',
+    user: 'fa-solid fa-user',
+    users: 'fa-solid fa-users',
+    post: 'fa-regular fa-newspaper',
+    message: 'fa-regular fa-message',
+    like: 'fa-solid fa-heart',
+    video: 'fa-solid fa-video',
+    phone: 'fa-solid fa-phone',
+    android: 'fa-brands fa-android',
+    bell: 'fa-solid fa-bell',
+    search: 'fa-solid fa-magnifying-glass',
+    shield: 'fa-solid fa-shield-halved',
+    zap: 'fa-solid fa-bolt',
+    globe: 'fa-solid fa-globe',
+    check: 'fa-solid fa-check',
+    close: 'fa-solid fa-xmark',
+    arrowRight: 'fa-solid fa-arrow-right',
+    arrowDown: 'fa-solid fa-arrow-down',
+    arrowUpRight: 'fa-solid fa-arrow-up-right',
+    lock: 'fa-solid fa-lock',
+    eye: 'fa-solid fa-eye',
+    eyeOff: 'fa-solid fa-eye-slash',
+    send: 'fa-solid fa-paper-plane',
+    mapPin: 'fa-solid fa-location-dot',
+    star: 'fa-solid fa-star',
+    chevronDown: 'fa-solid fa-chevron-down',
+    calendar: 'fa-solid fa-calendar-days',
+    camera: 'fa-solid fa-camera',
+    image: 'fa-regular fa-image',
+    settings: 'fa-solid fa-gear',
+    logout: 'fa-solid fa-right-from-bracket',
+    google: 'fa-brands fa-google',
+    code: 'fa-solid fa-code',
+    database: 'fa-solid fa-database',
+    server: 'fa-solid fa-server',
+    layers: 'fa-solid fa-layer-group',
+    menu: 'fa-solid fa-bars',
+    x: 'fa-solid fa-xmark',
+    at: 'fa-solid fa-at',
+    hash: 'fa-solid fa-hashtag',
+    clock: 'fa-solid fa-clock',
   };
-  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="${cls}">${I[name] || I.info}</svg>`;
+  const classes = `${map[name] || 'fa-solid fa-circle-info'} ${cls}`.trim();
+  return `<i class="${classes}" aria-hidden="true"></i>`;
 };
 
 /* ---------- Toast — sobre ---------- */
@@ -345,11 +346,6 @@ const Home = () => `
         <div class="flex flex-wrap justify-center gap-3 mt-9">
           <button onclick="navigate('download')" class="btn btn-accent btn-lg">Télécharger l&#39;application ${Icon('arrowDown', 'w-4 h-4')}</button>
           <button onclick="navigate('features')" class="btn btn-dark btn-lg">Découvrir les fonctionnalités</button>
-        </div>
-        <div class="mt-8 flex justify-center">
-          <a href="https://buysellstartups.com/listings/lynoralink-mu5uh7yt" target="_blank" rel="noopener noreferrer">
-            <img src="https://buysellstartups.com/api/badge/lynoralink-mu5uh7yt?style=dark" alt="For sale on BuySellStartups" width="280" height="68"/>
-          </a>
         </div>
       </div>
 
