@@ -33,7 +33,9 @@ const Icon = (name, cls = 'text-base') => {
     close: 'fa-solid fa-xmark',
     arrowRight: 'fa-solid fa-arrow-right',
     arrowDown: 'fa-solid fa-arrow-down',
-    arrowUpRight: 'fa-solid fa-arrow-up-right',
+    arrowUpRight: 'fa-solid fa-arrow-up',
+    chevronLeft: 'fa-solid fa-chevron-left',
+    chevronRight: 'fa-solid fa-chevron-right',
     lock: 'fa-solid fa-lock',
     eye: 'fa-solid fa-eye',
     eyeOff: 'fa-solid fa-eye-slash',
@@ -197,7 +199,7 @@ const Footer = () => `
         <p>© 2026 LynoraLink. Tous droits réservés.</p>
         <p>Conçu à Madagascar.</p>
       </div>
-      <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="back-to-top absolute right-6 lg:right-10 -top-5" aria-label="Retour en haut">${Icon('arrowUpRight', 'w-4 h-4 -rotate-45')}</button>
+      <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="back-to-top absolute right-6 lg:right-10 -top-5" aria-label="Retour en haut">${Icon('arrowUpRight', 'w-4 h-4')}</button>
     </div>
   </footer>`;
 
@@ -285,8 +287,8 @@ const Showcase = () => `
         ${SHOWCASE.map((_, i) => `<button class="showcase__dot ${i === 0 ? 'active' : ''}" onclick="showcaseGoto(${i})" aria-label="Diapositive ${i + 1}"></button>`).join('')}
       </div>
       <div class="flex items-center gap-2">
-        <button class="showcase__arrow" onclick="showcasePrev()" aria-label="Précédent">${Icon('arrowRight', 'w-4 h-4 rotate-180')}</button>
-        <button class="showcase__arrow" onclick="showcaseNext()" aria-label="Suivant">${Icon('arrowRight', 'w-4 h-4')}</button>
+        <button class="showcase__arrow" onclick="showcasePrev()" aria-label="Précédent">${Icon('chevronLeft', 'w-4 h-4')}</button>
+        <button class="showcase__arrow" onclick="showcaseNext()" aria-label="Suivant">${Icon('chevronRight', 'w-4 h-4')}</button>
       </div>
     </div>
   </div>`;
@@ -1102,6 +1104,8 @@ const render = () => {
     </div>`;
   observeReveal();
   initHeaderScroll();
+  initScrollVisibility();
+  updateBackToTop();
   initShowcase();
   if (state.route === 'legal') observeLegalNavigation();
   if (hashRoute.startsWith('legal-')) {
@@ -1121,6 +1125,23 @@ const initHeaderScroll = () => {
   window.__headerScrollHandler = update;
   window.addEventListener('scroll', update, { passive: true });
   update();
+};
+
+const updateBackToTop = () => {
+  const btn = document.querySelector('.back-to-top');
+  if (!btn) return;
+  const visible = window.scrollY > 260;
+  btn.classList.toggle('is-visible', visible);
+};
+
+const initScrollVisibility = () => {
+  const onScroll = () => {
+    updateBackToTop();
+  };
+  if (window.__scrollVisibilityHandler) window.removeEventListener('scroll', window.__scrollVisibilityHandler);
+  window.__scrollVisibilityHandler = onScroll;
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 };
 
 const observeReveal = () => {
