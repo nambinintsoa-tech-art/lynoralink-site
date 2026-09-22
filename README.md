@@ -19,7 +19,7 @@ frontend/
     ├── logo.png     # Logo LynoraLink
     └── public/
         ├── README.md
-        └── LynoraLink.v1.1.1.apk # APK Android
+        └── LynoraLink.v1.1.4.apk # APK Android
 ```
 
 Ne publiez pas le dossier parent `web/` comme racine du site. Le contenu de `frontend/` doit être la racine publique : le fichier `index.html` doit être accessible directement à l’adresse du domaine.
@@ -180,12 +180,12 @@ Si le domaine est géré ailleurs, utilisez les enregistrements communiqués par
 Le bouton Android pointe vers le chemin relatif suivant :
 
 ```text
-public/LynoraLink.v1.1.1.apk
+public/LynoraLink.v1.1.4.apk
 ```
 
 Pour rendre le téléchargement disponible :
 
-1. Envoyez le fichier `public/LynoraLink.v1.1.1.apk` avec le reste du dossier.
+1. Envoyez le fichier `public/LynoraLink.v1.1.4.apk` avec le reste du dossier.
 2. Conservez exactement ce nom ou modifiez le lien dans `frontend/app.js`.
 3. Republiez le dossier `frontend/` sur LWS.
 4. Testez le bouton depuis un téléphone Android.
@@ -267,7 +267,7 @@ Videz le cache du navigateur avec `Ctrl+F5`. Sur LWS, vérifiez la date de modif
 
 ### Le bouton APK ne télécharge rien
 
-Vérifiez que `public/LynoraLink.v1.1.1.apk` existe réellement avant l’envoi. Un lien HTML ne peut pas créer l’APK.
+Vérifiez que `public/LynoraLink.v1.1.4.apk` existe réellement avant l’envoi. Un lien HTML ne peut pas créer l’APK.
 
 ### Le domaine ne répond pas après modification DNS
 
