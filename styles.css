@@ -538,6 +538,59 @@ input, textarea, select { max-width: 100%; }
 .showcase__progress-bar.running { transition: width 5s linear; width: 100%; }
 
 /* =====================================================================
+   PREUVE PRODUIT — signal éditorial et cas d'usage
+   ===================================================================== */
+.product-proof__intro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+}
+.product-proof__layout {
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  gap: 20px;
+}
+.product-proof__signal {
+  min-height: 330px;
+  padding: 26px;
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.08), transparent 48%),
+    linear-gradient(155deg, var(--navy) 0%, var(--navy-800) 100%);
+  border: 1px solid rgba(16,26,51,.18);
+  box-shadow: var(--sh-3);
+  overflow: hidden;
+}
+.product-proof__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(255,255,255,.6);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.product-proof__live span { width: 7px; height: 7px; border-radius: 50%; background: #6bd08a; box-shadow: 0 0 0 4px rgba(107,208,138,.12); }
+.product-proof__signal-main { margin-top: 74px; }
+.product-proof__meter { height: 6px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; }
+.product-proof__meter span { display: block; width: 76%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--brass), #e0c47b); }
+.product-proof__steps { display: grid; gap: 10px; }
+.product-proof__step {
+  display: grid;
+  grid-template-columns: 42px 1fr 18px;
+  align-items: center;
+  gap: 16px;
+  min-height: 103px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: #fff;
+  transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+.product-proof__step:hover { border-color: #dcc994; box-shadow: var(--sh-2); transform: translateX(4px); }
+.product-proof__number { color: var(--brass-2); font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+
+/* =====================================================================
    PILLS, TAGS, TICKS
    ===================================================================== */
 .pill {
@@ -783,4 +836,10 @@ input, textarea, select { max-width: 100%; }
   .download-hero h1 { font-size: 40px !important; }
   .download-hero p { font-size: 15px; }
   .legal-content .panel { padding: 24px; }
+  .product-proof__intro { display: block; }
+  .product-proof__intro > p { margin-top: 18px; }
+  .product-proof__layout { grid-template-columns: 1fr; }
+  .product-proof__signal { min-height: 290px; padding: 22px; }
+  .product-proof__signal-main { margin-top: 58px; }
+  .product-proof__step { grid-template-columns: 32px 1fr 16px; gap: 12px; padding: 18px 16px; }
 }

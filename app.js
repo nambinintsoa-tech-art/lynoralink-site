@@ -397,6 +397,43 @@ const Home = () => `
       ${Showcase()}
     </section>
 
+    <!-- Preuve produit : usages concrets et signal de maturité -->
+    <section class="product-proof max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-24">
+      <div class="product-proof__intro">
+        <div>
+          <p class="eyebrow mb-3">Pensé pour durer</p>
+          <h2 class="text-[30px] lg:text-[42px] font-semibold tracking-[-0.03em] leading-[1.08] max-w-[13ch]">Un espace qui suit votre rythme.</h2>
+        </div>
+        <p class="text-[14.5px] leading-relaxed text-slatey max-w-[42ch]">De la première connexion à la communauté active, chaque détail est conçu pour rendre les échanges plus clairs, plus humains et plus utiles.</p>
+      </div>
+      <div class="product-proof__layout mt-10">
+        <div class="product-proof__signal reveal">
+          <div class="flex items-center justify-between gap-4">
+            <span class="pill pill-accent">Écosystème LynoraLink</span>
+            <span class="product-proof__live"><span></span> En ligne</span>
+          </div>
+          <div class="product-proof__signal-main">
+            <p class="text-[12px] font-semibold tracking-[.12em] uppercase text-white/45">Une seule interface</p>
+            <p class="text-[22px] font-semibold text-white mt-2">Créer. Échanger. Faire grandir.</p>
+            <div class="product-proof__meter mt-7"><span></span></div>
+            <div class="flex justify-between gap-4 mt-3 text-[11.5px] text-white/50"><span>Expérience fluide</span><strong class="text-gold-400">Prête à évoluer</strong></div>
+          </div>
+        </div>
+        <div class="product-proof__steps">
+          ${[
+            { n: '01', t: 'Pour les communautés', d: 'Rassemblez vos membres autour de conversations qui comptent.' },
+            { n: '02', t: 'Pour les créateurs', d: 'Publiez, développez votre audience et gardez votre voix.' },
+            { n: '03', t: 'Pour les entreprises', d: 'Donnez à votre activité un espace professionnel crédible.' },
+          ].map((item, i) => `
+            <article class="product-proof__step reveal" style="transition-delay:${i * 80}ms">
+              <span class="product-proof__number">${item.n}</span>
+              <div><h3 class="font-semibold text-[15px]">${item.t}</h3><p class="text-[13px] leading-relaxed text-slatey mt-1.5">${item.d}</p></div>
+              ${Icon('arrowUpRight', 'w-4 h-4 text-mist shrink-0')}
+            </article>`).join('')}
+        </div>
+      </div>
+    </section>
+
     <!-- Plateforme : grille bento -->
     <section class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-24">
       <div class="text-center max-w-2xl mx-auto mb-12">
